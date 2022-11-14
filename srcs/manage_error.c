@@ -251,6 +251,9 @@ void	init_all(t_cube *cube, t_elements *elem)
 	elem->F = 0;
 	elem->C = 0;
 	elem->N = 0;
+	elem->S = 0;
+	elem->E = 0;
+	elem->W = 0;
 	cube->y = 0;
 	cube->x = 0;
 	cube->start_map = 0;
@@ -285,6 +288,26 @@ int	space_error(t_cube *c)
 		return (msg_error("dwall not close\n"));
 	return (0);
 }
+int	parse_char(char c, t_elements *elem)
+{
+	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	{
+		if (elem->N + elem->S + elem->E + elem->W >= 1)
+			return (msg_error("multiple position identify\n"));
+		else if (c == 'N')
+			elem->N++;
+		else if (c == 'S')
+			elem->S++;
+		else if (c == 'E')
+			elem->E++;
+		else
+			elem->W++;
+		return (0);
+	}
+	if (c != '1' && c != '0' && c != ' ')
+		return (msg_error("caracter forbidden in map\n"));
+	return (0);
+}
 
 int	check_map_char(t_cube *c)
 {
@@ -303,18 +326,12 @@ int	check_map_char(t_cube *c)
 			printf("%c\n", c->tab[c->y][c->x]);
 			return (msg_error("wall not respected\n"));
 		}
-		else if (c->tab[c->y][c->x] == 'N')
-			c->elem->N++;
-		else if (c->tab[c->y][c->x] != '1' \
-		&& c->tab[c->y][c->x] != '0' && \
-		c->tab[c->y][c->x] != 'N' && c->tab[c->y][c->x] != ' ')
-			return (msg_error("caracter forbidden in map\n"));
+		else if (parse_char(c->tab[c->y][c->x], c->elem))
+			return (1);
 		else if (c->tab[c->y][c->x] == ' ')
 			if (space_error(c))
 				return (1);
 	}
-	if (c->elem->N > 1)
-		return (msg_error("multiple player\n"));	
 	return (0);
 }
 
@@ -332,13 +349,13 @@ void	check_description(t_cube *c)
 		{
 			while (c->tab[c->y][c->x] == ' ')
 				c->x++;
-			if (c->tab[c->y][c->x] == '1' && !check_map_char(c))
-				continue ;
-			else if (c->tab[c->y][c->x])
+			if (c->tab[c->y][c->x] && c->tab[c->y][c->x] != '1') 
 			{
 				msg_error("map :( not valid\n");
 				clean_tab(c->tab, EXIT);
 			}
+			if (check_map_char(c))
+				return ;
 			
 		}
 		c->x = 0;
