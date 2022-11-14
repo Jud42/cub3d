@@ -39,7 +39,12 @@ typedef struct s_cube{
 	t_elements *elem;
 }	t_cube;
 
+int msg_error(char *s);
 void parse_map(int ac, char **av);
+char **create_tab(char *file);
+void init_all(t_cube *cube, t_elements *elem);
+void check_elements(t_cube *cube);
+void check_description(t_cube *c);
 void clean_tab(char **tab, int flag);
 #endif 
 

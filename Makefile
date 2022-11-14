@@ -13,7 +13,11 @@
 NAME = cub3d
 
 SRC =	test.c \
+	tab_create.c \
 	manage_error.c \
+	init_struct.c \
+	map_element.c \
+	map_description.c \
 	clean.c \
 
 SRCS = $(addprefix srcs/, $(SRC))
