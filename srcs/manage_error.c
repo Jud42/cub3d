@@ -267,12 +267,15 @@ int	space_error(t_cube *c)
 	while (c->tab[c->y][c->x] && c->tab[c->y][c->x] == ' ')
 	{
 		y_tmp = c->y;
-		while (y_tmp-- > c->start_map && c->tab[y_tmp][c->x] != '1')
+		while (y_tmp-- > c->start_map && \
+		c->x < ft_strlen(c->tab[y_tmp]) && \
+		c->tab[y_tmp][c->x] != '1')
 			if (c->tab[y_tmp][c->x] != ' ' \
 			&& c->tab[y_tmp][c->x] != '1')
 				return (msg_error("bwall not close\n"));
 		y_tmp = c->y;
-		while (c->tab[++y_tmp] && c->tab[y_tmp][c->x] != '1')
+		while (c->tab[++y_tmp] && c->tab[y_tmp][c->x] != '1' && \
+		c->x < ft_strlen(c->tab[y_tmp]))
 			if (c->tab[y_tmp][c->x] != ' ' \
 			&& c->tab[y_tmp][c->x] != '1')
 				return (msg_error("cwall not close\n"));
@@ -319,8 +322,8 @@ void	check_description(t_cube *c)
 {
 	if (!c->tab[c->y])
 	{
-		msg_error("map :) not valid\n");
-		return ;
+		msg_error("map :( not valid\n");
+		clean_tab(c->tab, EXIT);
 	}
 	c->start_map = c->y;
 	while (c->tab[c->y])
@@ -332,7 +335,11 @@ void	check_description(t_cube *c)
 			if (c->tab[c->y][c->x] == '1' && !check_map_char(c))
 				continue ;
 			else if (c->tab[c->y][c->x])
+			{
+				msg_error("map :( not valid\n");
 				clean_tab(c->tab, EXIT);
+			}
+			
 		}
 		c->x = 0;
 		c->y++;
