@@ -14,10 +14,10 @@ NAME = cub3d
 
 SRC =	test.c \
 	tab_create.c \
-	manage_error.c \
 	init_struct.c \
-	map_element.c \
-	map_description.c \
+	manage_error/mng_error.c \
+	manage_error/map_element.c \
+	manage_error/map_description.c \
 	clean.c \
 
 SRCS = $(addprefix srcs/, $(SRC))
@@ -39,6 +39,7 @@ DIR = file_object
 OB = $(addprefix $(DIR)/, $(SRCS:%.c=%.o))
 CLONE = file_object \
 	file_object/srcs \
+	file_object/srcs/manage_error \
 
 $(DIR)/%.o : %.c
 	@mkdir -p $(CLONE)

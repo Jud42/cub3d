@@ -111,19 +111,8 @@ void	check_error_argument(int ac, char **av)
 }
 
 /*----------------------------------------*/
-void	parse_map(int	ac, char **av)
+void	parse_map(t_cube *cube, t_elements *elem)
 {
-	t_cube	cube;
-	t_elements elem;
-
-	check_error_argument(ac, av);
-	cube.tab = create_tab(av[1]);
-	init_all(&cube, &elem);
-	check_elements(&cube);
-	check_description(&cube);
-	clean_tab(cube.tab, 0);
-	if (cube.elem->F)
-		free(cube.elem->F);
-	if (cube.elem->C)
-		free(cube.elem->C);
+	check_elements(cube);
+	check_description(cube);
 }
