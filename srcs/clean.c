@@ -15,11 +15,39 @@ void	clean_tab(char **tab, int flag)
 		exit(EXIT_FAILURE);
 }
 
+void	clean_element(t_elements **elem)
+{
+	if ((*elem)->NO)
+		free((*elem)->NO);
+	if ((*elem)->SO)
+		free((*elem)->SO);
+	if ((*elem)->EA)
+		free((*elem)->EA);
+	if ((*elem)->WE)
+		free((*elem)->WE);
+	if ((*elem)->F)
+		free((*elem)->F);
+	if ((*elem)->C)
+		free((*elem)->C);
+	if (*elem)
+		free(*elem);
+}
+
+void	clean_data(t_data **data)
+{
+	if ((*data)->mlx_ptr)
+		free((*data)->mlx_ptr);
+	//if ((*data)->mlx_win)
+	//	free((*data)->mlx_win);
+	if (*data)
+		free(*data);
+
+
+}
+
 void	clean_all(t_cube *cube, int flag)
 {
-	if (cube->elem->F)
-		free(cube->elem->F);
-	if (cube->elem->C)
-		free(cube->elem->C);
-	clean_tab(cube->tab, flag);
+	clean_element(&cube->elem);
+	clean_data(&cube->data);
+	clean_tab(cube->map, flag);
 }

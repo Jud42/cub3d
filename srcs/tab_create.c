@@ -54,6 +54,20 @@ static char    *new_string(char *s)
         return (new_s);
 }
 
+static int	first_char(char *s)
+{
+	int	i;
+        
+	if (!ft_strncmp(s, "\n", ft_strlen(s)))
+		return (0);
+	i = -1;
+	while (s[++i] && s[i] == ' ')
+		;
+	if (s[i] == '1')
+		return (1);
+	return (0);
+}
+
 static void    alloc_new_tab(char **tab, char ***new_tab)
 {
         int     i;
@@ -62,7 +76,7 @@ static void    alloc_new_tab(char **tab, char ***new_tab)
         i = -1;
         n = 0;
         while (tab[++i])
-                if (tab[i] == "\n")
+                if (!ft_strncmp(tab[i], "\n", ft_strlen(tab[i])))
                         n++;
         if (i - n != 0)
         {
@@ -78,33 +92,33 @@ static void    alloc_new_tab(char **tab, char ***new_tab)
         clean_tab(tab, EXIT);
 }
 
-static int     delete_new_line(char ***tab)
+
+static char	**delete_new_line(char **tab)
 {
         int     i;
         int     n;
         char    **new_tab;
 
-        alloc_new_tab(*tab, &new_tab);
+        alloc_new_tab(tab, &new_tab);
         i = -1;
         n = 0;
-        while ((*tab)[++i])
+        while (tab[++i])
         {
-                if (!ft_strncmp((*tab)[i], "\n", ft_strlen((*tab)[i])))
+		if (!ft_strncmp(tab[i], "\n", ft_strlen(tab[i])))
                         continue ;
                 else
                 {
-                        new_tab[n] = new_string((*tab)[i]);
+                        new_tab[n] = new_string(tab[i]);
                         if (!new_tab[n++])
                         {
-                                clean_tab(*tab, 0);
+                                clean_tab(tab, 0);
                                 clean_tab(new_tab, EXIT);
                         }
                 }
         }
         new_tab[n] = NULL;
-        clean_tab(*tab, 0);
-        *tab = new_tab;
-        return (0);
+        clean_tab(tab, 0);
+	return (new_tab);
 }
 
 char    **create_tab(char *file)
@@ -124,8 +138,8 @@ char    **create_tab(char *file)
         tab[i] = get_next_line(fd);
         while (tab[i++])
                 tab[i] = get_next_line(fd);
-        if (tab[0][ft_strlen(tab[0]) - 1] == '\n')
-                delete_new_line(&tab);
         close(fd);
+        if (tab[0][ft_strlen(tab[0]) - 1] == '\n')
+                return (delete_new_line(tab));
         return (tab);
 }

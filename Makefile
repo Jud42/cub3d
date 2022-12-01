@@ -12,7 +12,7 @@
 
 NAME = cub3d
 
-SRC =	test.c \
+SRC =	main.c \
 	tab_create.c \
 	init_struct.c \
 	manage_error/mng_error.c \
@@ -49,9 +49,9 @@ all : $(NAME)
 
 $(NAME) : $(OB)
 	@make -C libft
-	@echo "Compiling philo..."
+	@echo "Compiling cub3d..."
 	@$(CC) $(FLAGS) $(OB) $(LIB) -o $@
-	@echo "Compilation [philo] is done!"
+	@echo "Compilation [cub3d] is done!"
 
 clean :
 	@echo "Remove all file_object..."

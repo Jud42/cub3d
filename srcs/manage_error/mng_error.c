@@ -110,9 +110,3 @@ void	check_error_argument(int ac, char **av)
 	//	ft_printf("Only 2nd argument will be taken\n");
 }
 
-/*----------------------------------------*/
-void	parse_map(t_cube *cube, t_elements *elem)
-{
-	check_elements(cube);
-	check_description(cube);
-}

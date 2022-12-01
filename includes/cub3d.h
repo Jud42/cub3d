@@ -20,10 +20,10 @@ typedef struct s_color{
 } t_color;
 
 typedef struct s_elements{
-	int	NO; //path north texture wall
-	int	SO; //path south texture wall
-	int	WE; //path west texture wall
-	int	EA; //path east texture wall
+	void	*NO; //path north texture wall
+	void	*SO; //path south texture wall
+	void	*WE; //path west texture wall
+	void	*EA; //path east texture wall
 	int	*F; //color sol
 	int	*C; //color plafond
 	int	N; //first position players
@@ -33,9 +33,19 @@ typedef struct s_elements{
 
 }	t_elements;
 
+typedef struct s_img
+{
+	void	*mlx_img;
+	char	*addr;
+	int	bpp; 	/* bits per pixel */
+	int	line_len;
+	int	endian;
+}	t_img;
+
 typedef struct s_data{
 	void *mlx_ptr;
 	void *mlx_win;
+	t_img	img;
 	int  width;
 	int  height;
 }	t_data;
@@ -43,19 +53,23 @@ typedef struct s_data{
 typedef struct s_cube{
 	int	x;
 	int	y;
-	int	start_map;
-	char	**tab;
-	t_data	*mlx;
-	t_elements *elem;
+	char	**map;
+	//int	posX;
+	//int	posY;
+	//int	dirX;
+	//int	dirY;
+	//int	planX;
+	//int	planY;
+	t_data		*data;
+	t_elements	*elem;
 }	t_cube;
 
 int msg_error(char *s);
-void parse_map(t_cube *cube, t_elements *elem);
 char **create_tab(char *file);
-void init_all(t_cube *cube, t_elements *elem);
+int init_all(t_cube *cube, char *file);
 void check_error_argument(int ac, char **av);
-void check_elements(t_cube *cube);
-void check_description(t_cube *c);
+int	take_map(t_cube *cube);
+int	parse_map(t_cube *c);
 void clean_all(t_cube *cube, int flag);
 void clean_tab(char **tab, int flag);
 
