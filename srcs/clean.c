@@ -35,8 +35,8 @@ void	clean_element(t_elements **elem)
 
 void	clean_data(t_data **data)
 {
-	if ((*data)->mlx_ptr)
-		free((*data)->mlx_ptr);
+	//if ((*data)->mlx_ptr)
+	//	free((*data)->mlx_ptr);
 	//if ((*data)->mlx_win)
 	//	free((*data)->mlx_win);
 	if (*data)

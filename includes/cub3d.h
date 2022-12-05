@@ -12,6 +12,8 @@
 #define EXIT 1
 #define H_PIX 32 //Height
 #define W_PIX 32 //Width
+#define COLOR_P	0x00FF0000 //test pixel 
+#define COL_DIR_P	0x000066FF //test pixel 
 
 typedef struct s_color{
 	int RED;
@@ -45,21 +47,21 @@ typedef struct s_img
 typedef struct s_data{
 	void *mlx_ptr;
 	void *mlx_win;
-	t_img	img;
+	t_img	*img;
 	int  width;
 	int  height;
 }	t_data;
 
 typedef struct s_cube{
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 	char	**map;
-	//int	posX;
-	//int	posY;
-	//int	dirX;
-	//int	dirY;
-	//int	planX;
-	//int	planY;
+	double	posX;
+	double	posY;
+	double	dirX;
+	double	dirY;
+	double	planX;
+	double	planY;
 	t_data		*data;
 	t_elements	*elem;
 }	t_cube;

@@ -28,23 +28,28 @@ static int     check_space(t_cube *c)
         return (0);
 }
 
-static int     check_position(char c, t_elements *elem)
+static int     check_position(t_cube *c)
 {
-        if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		char chr;
+
+		chr = c->map[c->y][c->x];
+        if (chr == 'N' || chr == 'S' || chr == 'E' || chr == 'W')
         {
-                if (elem->N + elem->S + elem->E + elem->W >= 1)
+                if (c->elem->N + c->elem->S + c->elem->E + c->elem->W >= 1)
                         return (msg_error("multiple position identify\n"));
-                else if (c == 'N')
-                        elem->N++;
-                else if (c == 'S')
-                        elem->S++;
-                else if (c == 'E')
-                        elem->E++;
+                else if (chr == 'N')
+                        c->elem->N++;
+                else if (chr == 'S')
+                        c->elem->S++;
+                else if (chr == 'E')
+                        c->elem->E++;
                 else
-                        elem->W++;
+                        c->elem->W++;
+				c->posY = c->y;
+				c->posX = c->x;
                 return (0);
         }
-        if (c != '1' && c != '0' && c != ' ')
+        if (chr != '1' && chr != '0' && chr != ' ')
                 return (msg_error("caracter forbidden in map\n"));
         return (0);
 }
@@ -66,7 +71,7 @@ static int     check_char(t_cube *c)
                         printf("%c\n", c->map[c->y][c->x]);
                         return (msg_error("wall not respected\n"));
                 }
-                else if (check_position(c->map[c->y][c->x], c->elem))
+                else if (check_position(c))
                         return (1);
                 else if (c->map[c->y][c->x] == ' ')
                         if (check_space(c))
