@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "mlx.h"
+#include "../lib/mlx/mlx.h"
 #include <math.h>
-#include "libft.h"
+#include "../lib/libft/libft.h"
 
 #define EXIT 1
 #define H_PIX 32 //Height

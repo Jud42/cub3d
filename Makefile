@@ -6,7 +6,7 @@
 #    By: mnikolov <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 18:02:56 by rmamison          #+#    #+#              #
-#    Updated: 2022/10/04 17:10:56 by rmamison         ###   ########.fr        #
+#    Updated: 2022/12/12 17:34:54 by Blaze            ###    42Lausanne.ch     #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,17 +20,21 @@ SRC =	main.c \
 	manage_error/map_description.c \
 	clean.c \
 
+libft_DIR = ./lib/libft
+
 SRCS = $(addprefix srcs/, $(SRC))
 
-ifeq ($(shell uname -s), Linux)
-	INCLUDE = -Iincludes -Imlx_linux -Ilibft -I/usr/include
-	LIB = -Lmlx_linux -lmlx -L/usr/lib -lXext -lX11 -lm -lz libft/libft.a
+UNAME= $(shell uname -s)
+ifeq ($(uname), Linux)
+		mlx_DIR = ./lib/mlx/linux
+		mlx_FLAGS += -lmlx -lX11 -lXext -lm -lz
 else
-	INCLUDE = -Iincludes -Iminilibx -Ilibft
-	LIB = -Lminilibx -lmlx -framework OpenGL -framework AppKit libft/libft.a
-endif 
+		mlx_DIR = ./lib/mlx
+		mlx_FLAGS += -lmlx -lm -framework OpenGL -framework AppKit
+endif
 
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+
+FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 CC = gcc
 
 RM = rm -rf
@@ -48,9 +52,10 @@ $(DIR)/%.o : %.c
 all : $(NAME)
 
 $(NAME) : $(OB)
-	@make -C libft
+	@make -C $(libft_DIR)
+	@make -C $(mlx_DIR)
 	@echo "Compiling cub3d..."
-	@$(CC) $(FLAGS) $(OB) $(LIB) -o $@
+	@$(CC) $(FLAGS) -lft -L$(libft_DIR) -L$(mlx_DIR) $(mlx_FLAGS) $(OB) $(LIB) -o $@
 	@echo "Compilation [cub3d] is done!"
 
 clean :
