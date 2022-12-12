@@ -39,15 +39,15 @@ void	clean_data(t_data **data)
 	//	free((*data)->mlx_ptr);
 	//if ((*data)->mlx_win)
 	//	free((*data)->mlx_win);
-	if (*data)
-		free(*data);
+	if ((*data)->img)
+		free((*data)->img);
 
 
 }
 
-void	clean_all(t_cube *cube, int flag)
+void	clean_all(t_data *data, int flag)
 {
-	clean_element(&cube->elem);
-	clean_data(&cube->data);
-	clean_tab(cube->map, flag);
+	clean_element(&data->elem);
+	clean_data(&data);
+	clean_tab(data->map, flag);
 }

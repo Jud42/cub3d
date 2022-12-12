@@ -70,75 +70,75 @@ static int     take_color(char *line, t_elements *elem)
         return(msg_error("unrecognized identifier\n"));
 }
 
-static int     check_char(char *line, t_cube *cube, int *elem)
+static int     check_char(char *line, t_data *d, int *elem)
 {
         int     ret;
 
-        if (line[cube->x] == 'F' || line[cube->x] == 'C')
-                ret = take_color(line, cube->elem);
-        else if (line[cube->x] == 'N')
-                ret = take_path(line, "O ", &cube->elem->NO);
-        else if (line[cube->x] == 'S')
-                ret = take_path(line, "O ", &cube->elem->SO);
-        else if (line[cube->x] == 'E')
-                ret = take_path(line, "A ", &cube->elem->EA);
-        else if (line[cube->x] == 'W')
-                ret = take_path(line, "E ", &cube->elem->WE);
+        if (line[d->x] == 'F' || line[d->x] == 'C')
+                ret = take_color(line, d->elem);
+        else if (line[d->x] == 'N')
+                ret = take_path(line, "O ", &d->elem->NO);
+        else if (line[d->x] == 'S')
+                ret = take_path(line, "O ", &d->elem->SO);
+        else if (line[d->x] == 'E')
+                ret = take_path(line, "A ", &d->elem->EA);
+        else if (line[d->x] == 'W')
+                ret = take_path(line, "E ", &d->elem->WE);
         else 
         {
-                printf("%c\n", line[cube->x]);
+                printf("%c\n", line[d->x]);
                 return(msg_error("unrecognized identifier\n"));
         }
         if (ret == 0)
-                cube->x = ft_strlen(line);
+                d->x = ft_strlen(line);
 	(*elem)++;
         return (ret);
 }
 
-static int	update_map(t_cube *c)
+static int	update_map(t_data *d)
 {
 	int	i;
 	char	**new_map;
 
-	if (!c->map[c->y])
+	if (!d->map[d->y])
 		return(msg_error("map not valid\n"));
 	i = -1;
-	while (c->map[++i])
+	while (d->map[++i])
 		;
-	new_map = malloc(sizeof(char *) * (i - c->y) + 1);
+	new_map = malloc(sizeof(char *) * (i - d->y) + 1);
 	if (!new_map)
 		return(msg_error("malloc() update_map()\n"));
 	i = 0;
-	while (c->map[c->y])
-		new_map[i++] = ft_strdup(c->map[c->y++]);
+	while (d->map[d->y])
+		new_map[i++] = ft_strdup(d->map[d->y++]);
 	new_map[i] = NULL;
-	clean_tab(c->map, 0);
-	c->map = new_map;
+	clean_tab(d->map, 0);
+	d->map = new_map;
 	return (0);
 }
 
-int    take_map(t_cube *c)
+int    take_map(t_data *d)
 {
 	int	wall;
 	int	elem;
 
 	wall = 0;
 	elem = 0;
-        while (!wall && c->map[++c->y])
+        while (!wall && d->map[++d->y])
         {
-                while (!wall && c->map[c->y][c->x])
+                while (!wall && d->map[d->y][d->x])
                 {
-                        if (c->map[c->y][c->x] == ' ')
-                                c->x++;
-                        else if (c->map[c->y][c->x] == '1')
+                        if (d->map[d->y][d->x] == ' ')
+                                d->x++;
+                        else if (d->map[d->y][d->x] == '1')
                                 wall = 1;
-                        else if (check_char(c->map[c->y], c, &elem) == 1)
+                        else if (check_char(d->map[d->y], d, &elem) == 1)
 				return (1);
                 }
-                c->x = 0;
+                d->x = 0;
         }
 	if (elem)
-		return(update_map(c));
+		return(update_map(d));
 	return (0);
 }
 

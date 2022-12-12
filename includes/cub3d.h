@@ -14,6 +14,16 @@
 #define W_PIX 32 //Width
 #define COLOR_P	0x00FF0000 //test pixel 
 #define COL_DIR_P	0x000066FF //test pixel 
+#define COL_TEST	0x0000FF66 //test pixel 
+#define PI 3.1415926535//pi value
+
+//clavier azerty
+#define UP 122
+#define DOWN 115
+#define LEFT 113
+#define RIGHT 100
+#define ROT_LEFT 65361
+#define ROT_RIGHT 65363
 
 typedef struct s_color{
 	int RED;
@@ -28,11 +38,6 @@ typedef struct s_elements{
 	void	*EA; //path east texture wall
 	int	*F; //color sol
 	int	*C; //color plafond
-	int	N; //first position players
-	int	S; //first position players
-	int	E; //first position players
-	int	W; //first position players
-
 }	t_elements;
 
 typedef struct s_img
@@ -45,34 +50,33 @@ typedef struct s_img
 }	t_img;
 
 typedef struct s_data{
-	void *mlx_ptr;
-	void *mlx_win;
-	t_img	*img;
-	int  width;
-	int  height;
-}	t_data;
-
-typedef struct s_cube{
-	int		x;
-	int		y;
+	int  	width;
+	int  	height;
+	int	x;
+	int	y;
 	char	**map;
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planX;
-	double	planY;
-	t_data		*data;
+	float	posX;
+	float	posY;
+	float	pdX;
+	float	pdY;
+	float	pa;
+	float	dirX;
+	float	dirY;
+	float	planX;
+	float	planY;
+	void 	*mlx_ptr;
+	void 	*mlx_win;
+	t_img		*img;
 	t_elements	*elem;
-}	t_cube;
-
+}	t_data;
+	
 int msg_error(char *s);
 char **create_tab(char *file);
-int init_all(t_cube *cube, char *file);
+int init_all(t_data *data, char *file);
 void check_error_argument(int ac, char **av);
-int	take_map(t_cube *cube);
-int	parse_map(t_cube *c);
-void clean_all(t_cube *cube, int flag);
+int	take_map(t_data *d);
+int	parse_map(t_data*d);
+void clean_all(t_data *d, int flag);
 void clean_tab(char **tab, int flag);
 
 #endif 

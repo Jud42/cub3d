@@ -56,11 +56,13 @@ $(NAME) : $(OB)
 clean :
 	@echo "Remove all file_object..."
 	@$(RM) $(DIR)
+	@make clean -C libft
 	@echo "file_object removed!"
 
 fclean : clean
 	@echo "Remove all file_object & file_binary..."
 	@$(RM) $(NAME)
+	@make fclean -C libft
 	@echo "object and binary_file removed!"
 
 re : fclean $(NAME)
