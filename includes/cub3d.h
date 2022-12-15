@@ -59,7 +59,7 @@ typedef struct s_data{
 	float	posY;
 	float	pdX;
 	float	pdY;
-	float	pa;
+	double	pa;
 	float	dirX;
 	float	dirY;
 	float	planX;
