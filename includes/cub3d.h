@@ -17,13 +17,21 @@
 #define COL_TEST	0x0000FF66 //test pixel 
 #define PI 3.1415926535//pi value
 
-//clavier azerty
-#define UP 122
-#define DOWN 115
-#define LEFT 113
-#define RIGHT 100
-#define ROT_LEFT 65361
-#define ROT_RIGHT 65363
+# if defined (_linux_) //clavier azerty
+	# define UP 122
+	# define DOWN 115
+	# define LEFT 113
+	# define RIGHT 100
+	# define ROT_LEFT 65361
+	# define ROT_RIGHT 65363
+# else //clavier qwerty
+	# define UP 13
+	# define DOWN 1
+	# define LEFT 0
+	# define RIGHT 2
+	# define ROT_LEFT 123
+	# define ROT_RIGHT 124
+# endif
 
 typedef struct s_color{
 	int RED;

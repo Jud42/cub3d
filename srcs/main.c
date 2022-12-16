@@ -24,9 +24,9 @@ void	draw_direction(t_data *d, int color, float rx, float ry)
 			mlx_pixel_put(d->mlx_ptr, d->mlx_win, x++, y, color);
 	else if (d->pa == PI && d->pdX < 0)
 	{
-		printf("je rentre \n");
 		while (x > d->posX + 2.5 - rx)
-			mlx_pixel_put(d->mlx_ptr, d->mlx_win, x--, y, color);		}
+			mlx_pixel_put(d->mlx_ptr, d->mlx_win, x--, y, color);		
+	}
 	else if (d->pdY > 0)	
 	{
 		while (y < (d->pdY + d->posY) + ry)
@@ -51,8 +51,8 @@ void	draw_direction(t_data *d, int color, float rx, float ry)
 void	draw_ray3d(t_data *d)
 {
 	int r, mx, my, mp, dof, mapX, mapY; 
-	float rx, ry, ra, xo, yo;
-	float aTan;
+	double rx, ry, ra, xo, yo;
+	double aTan;
 	
 	ra = d->pa;
 	for (r = 0; r < 1; r++)
@@ -60,35 +60,34 @@ void	draw_ray3d(t_data *d)
 		//check horizontal line
 		dof = 0;
 		aTan = -1/tan(ra);
-		if (ra > PI)//looking up
-		{
-			printf(" avant ry => %f\n", ry);
-			ry = (((int)d->posY >> 6) << 6) - 0.0001;
-			printf("ry => %f\n", ry);
-			rx = (d->posY - ry) * aTan + d->posX;
-	 		yo = -32;
-			xo = -yo * aTan;
-		}
-		if (ra < PI) //looking down
-		{
-			ry = (((int)d->posY >> 6) << 6) + 32;
-			rx = (d->posY - ry) * aTan + d->posX;
-			yo = 32;
-			xo = yo * aTan;
-		}	
-		if (ra == 0 || ra == PI)//looking straight left or right
+		if (ra == 0.0 || ra == PI)//looking straight left or right LEFT
 		{
 			rx = d->posX;
 			ry = d->posY;
 			dof = 8;
 		}
+		if (ra > PI)//looking up HORIZONTAL
+		{
+			printf("pos => %f\n", d->posY);
+			ry = (((int)d->posY >> 6) << 6) - 0.0001;
+			rx = (d->posY - ry) * aTan + d->posX;
+	 		yo = -32;
+			xo = -yo * aTan;
+		}
+		if (ra < PI) //looking down HORIZONTAL
+		{
+			ry = (((int)d->posY >> 6) << 6) + 32;
+			rx = (d->posY - ry) * aTan + d->posX;
+			yo = 32;
+			xo = -yo * aTan;
+		}	
 		while (dof < 8)
 		{
-			mx = (int) (rx) >> 6;
-			my = (int) (ry) >> 6;
-			mp = my * ft_strlen(d->map[(int)d->posY]) + mx;
-			printf("%d\n", mp);
-			if (mp < ft_strlen(d->map[(int)d->posY]) * 14 \
+			mx = (int) (rx) >> 6; my  = (int) (ry) >> 6;
+			printf("mx ==== %d\n", (int)d->posY/32);
+			mp = my * ft_strlen(d->map[(int)d->posY/32]) + mx;
+			printf("my ==== %d\n", my);
+			if (mp < ft_strlen(d->map[(int)d->posY/32]) * 14 \
 			&& d->map[my][mx] == '1')//hit wall
 				dof = 8;
 			else
@@ -141,7 +140,6 @@ int	take_keycode(int keycode, t_data *d)
 		d->pdY = sin(d->pa) * 5;
 	}
 	draw_ray3d(d);
-	//draw_direction(d, COL_DIR_P, 10, 10);
 	return (0);
 }
 

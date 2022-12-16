@@ -73,7 +73,7 @@ static int	init_mlx(t_data **data)
 
 int	init_all(t_data *data, char *file)
 {
-    	data->y = -1;
+    data->y = -1;
    	data->x = 0;
    	data->posY = 0.0;
    	data->posX = 0.0;
