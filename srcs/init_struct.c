@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 void	img_pix_put(t_img *img, int x, int y, int color)
 {

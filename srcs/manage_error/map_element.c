@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 static int     take_path(char  *line, char *substr, void **texture)
 {

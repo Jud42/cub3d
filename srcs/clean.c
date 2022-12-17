@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 void	clean_tab(char **tab, int flag)
 {
@@ -41,8 +41,6 @@ void	clean_data(t_data **data)
 	//	free((*data)->mlx_win);
 	if ((*data)->img)
 		free((*data)->img);
-
-
 }
 
 void	clean_all(t_data *data, int flag)

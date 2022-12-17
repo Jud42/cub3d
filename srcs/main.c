@@ -1,4 +1,4 @@
-#include "cub3d.h" 
+#include "../includes/cub3d.h" 
 
 /*
     North (W): 0° = 360° or 0
