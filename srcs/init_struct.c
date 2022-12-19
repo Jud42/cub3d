@@ -16,7 +16,7 @@ void	init_element(t_elements **elem)
 		printf("error: malloc() init_elem\n");
 		return ;
 	}
-	(*elem)->NO = NULL;
+		(*elem)->NO = NULL;
     	(*elem)->SO = NULL;
     	(*elem)->WE = NULL;
     	(*elem)->EA = NULL;
@@ -46,9 +46,8 @@ void    calcul_x_y(t_data *d)
 //      if ((y - c->start_map) * H_PIX < d->height)
 		//d->height = y * H_PIX;
         d->width = 1000;
-	d->height = 1000;
+		d->height = 1000;
 }
-
 
 static int	init_mlx(t_data **data)
 {
@@ -67,7 +66,7 @@ static int	init_mlx(t_data **data)
 	&d->img->line_len, &d->img->endian);
 	/*----------------*/
 	d->mlx_win = mlx_new_window(d->mlx_ptr, d->width, \
-	d->height, "Hello world!");
+	d->height, "Cub3D");
 	return (0);
 }
 

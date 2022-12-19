@@ -5,17 +5,19 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "../lib/mlx/mlx.h"
 #include <math.h>
+#include "../lib/mlx/mlx.h"
 #include "../lib/libft/libft.h"
 
 #define EXIT 1
 #define H_PIX 32 //Height
 #define W_PIX 32 //Width
-#define COLOR_P	0x00FF0000 //test pixel 
+#define COLOR_P	0x00FF0000 //test pixel
+#define COLOR_B 0x000000 
 #define COL_DIR_P	0x000066FF //test pixel 
 #define COL_TEST	0x0000FF66 //test pixel 
 #define PI 3.1415926535//pi value
+# define KEY_ESC 53
 
 # if defined (_linux_) //clavier azerty
 	# define UP 122
@@ -78,14 +80,20 @@ typedef struct s_data{
 	t_elements	*elem;
 }	t_data;
 	
-int msg_error(char *s);
-char **create_tab(char *file);
-int init_all(t_data *data, char *file);
-void check_error_argument(int ac, char **av);
-int	take_map(t_data *d);
-int	parse_map(t_data*d);
-void clean_all(t_data *d, int flag);
-void clean_tab(char **tab, int flag);
+int 	msg_error(char *s);
+char 	**create_tab(char *file);
+int 	init_all(t_data *data, char *file);
+void 	check_error_argument(int ac, char **av);
+int		take_map(t_data *d);
+int		parse_map(t_data*d);
+void 	clean_all(t_data *d, int flag);
+void 	clean_tab(char **tab, int flag);
+int		close_window(t_data *data);
+int		take_keycode(int keycode, t_data *d);
+void	draw_ray3d(t_data *d);
+void	draw_player(t_data *d);
+void	draw_empty(t_data *d);
+void	draw_direction(t_data *d, int color, float rx, float ry);
 
 #endif 
 

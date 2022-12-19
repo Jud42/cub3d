@@ -4,3 +4,4 @@ cub3d
 .DS_Store
 file_object
 .gitignore
+*.o

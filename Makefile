@@ -1,24 +1,15 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mnikolov <marvin@42lausanne.ch>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/06/14 18:02:56 by rmamison          #+#    #+#              #
-#    Updated: 2022/12/12 17:34:54 by Blaze            ###    42Lausanne.ch     #
-#                                                                              #
-# **************************************************************************** #
+
 
 NAME = cub3d
 
 SRC =	main.c \
-	tab_create.c \
-	init_struct.c \
-	manage_error/mng_error.c \
-	manage_error/map_element.c \
-	manage_error/map_description.c \
-	clean.c \
+		tab_create.c \
+		init_struct.c \
+		manage_error/mng_error.c \
+		manage_error/map_element.c \
+		manage_error/map_description.c \
+		clean.c \
+		hooks.c draw.c\
 
 libft_DIR = ./lib/libft
 
@@ -32,7 +23,6 @@ else
 		mlx_DIR = ./lib/mlx
 		mlx_FLAGS += -lmlx -lm -framework OpenGL -framework AppKit
 endif
-
 
 FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 CC = gcc
@@ -61,13 +51,12 @@ $(NAME) : $(OB)
 clean :
 	@echo "Remove all file_object..."
 	@$(RM) $(DIR)
-	@make clean -C libft
+	@make clean -C $(libft_DIR)
 	@echo "file_object removed!"
 
 fclean : clean
 	@echo "Remove all file_object & file_binary..."
 	@$(RM) $(NAME)
-	@make fclean -C libft
 	@echo "object and binary_file removed!"
 
 re : fclean $(NAME)
