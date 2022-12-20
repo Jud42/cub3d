@@ -35,8 +35,8 @@ void	draw_direction(t_data *d, int color, float rx, float ry)
 	float y = d->posY + 2.5;
 	float x = d->posX + 2.5;
 
-	printf("cos pdx => %f\tsin pdY %f\n", d->pdX, d->pdY);
-	printf("%f\n", d->pa);
+	//printf("cos pdx => %f\tsin pdY %f\n", d->pdX, d->pdY);
+	//printf("%f\n", d->pa);
 	//vertical
 	if (d->pa == 0.0 && d->pdX > 0)
 		while (x < d->posX + 2.5 + rx)
@@ -70,8 +70,8 @@ void	draw_direction(t_data *d, int color, float rx, float ry)
 void	draw_ray3d(t_data *d)
 {
 	int r, mx, my, mp, dof, mapX, mapY; 
-	double rx, ry, ra, xo, yo;
-	double aTan;
+	float rx, ry, ra, xo, yo;
+	float aTan;
 	
 	ra = d->pa;
 	for (r = 0; r < 1; r++)
@@ -87,7 +87,7 @@ void	draw_ray3d(t_data *d)
 		}
 		if (ra > PI)//looking up HORIZONTAL
 		{
-			printf("pos => %f\n", d->posY);
+			//printf("pos => %f\n", d->posY);
 			ry = (((int)d->posY >> 6) << 6) - 0.0001;
 			rx = (d->posY - ry) * aTan + d->posX;
 	 		yo = -32;
@@ -103,9 +103,9 @@ void	draw_ray3d(t_data *d)
 		while (dof < 8)
 		{
 			mx = (int) (rx) >> 6; my  = (int) (ry) >> 6;
-			printf("mx ==== %d\n", (int)d->posY/32);
+			//printf("mx ==== %d\n", (int)d->posY/32);
 			mp = my * ft_strlen(d->map[(int)d->posY/32]) + mx;
-			printf("my ==== %d\n", my);
+			//printf("my ==== %d\n", my);
 			if (mp < ft_strlen(d->map[(int)d->posY/32]) * 14 \
 			&& d->map[my][mx] == '1')//hit wall
 				dof = 8;
