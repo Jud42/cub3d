@@ -52,7 +52,7 @@ int	main(int argc, char *argv[])
 		clean_all(&data, 1);
 	print_wall(&data);
 	draw_player(&data);
-	draw_ray3d(&data);
+	//draw_ray3d(&data);
 	mlx_key_hook(data.mlx_win, take_keycode, &data);
 	mlx_hook(data.mlx_win, 17, 0L,close_window, &data);
 	mlx_loop(data.mlx_ptr);

@@ -35,7 +35,8 @@
 	# define ROT_RIGHT 124
 # endif
 
-typedef struct s_color{
+typedef struct s_color
+{
 	int RED;
 	int GREEN;
 	int BLUE;
@@ -46,24 +47,24 @@ typedef struct s_elements{
 	void	*SO; //path south texture wall
 	void	*WE; //path west texture wall
 	void	*EA; //path east texture wall
-	int	*F; //color sol
-	int	*C; //color plafond
+	int		*F; //color sol
+	int		*C; //color plafond
 }	t_elements;
 
 typedef struct s_img
 {
 	void	*mlx_img;
 	char	*addr;
-	int	bpp; 	/* bits per pixel */
-	int	line_len;
-	int	endian;
+	int		bpp; 	/* bits per pixel */
+	int		line_len;
+	int		endian;
 }	t_img;
 
 typedef struct s_data{
 	int  	width;
 	int  	height;
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 	char	**map;
 	float	posX;
 	float	posY;
@@ -94,6 +95,9 @@ void	draw_ray3d(t_data *d);
 void	draw_player(t_data *d);
 void	draw_empty(t_data *d);
 void	draw_direction(t_data *d, int color, float rx, float ry);
+int 	FixAng(int a);
+float 	degToRad(int a);
+
 
 #endif 
 

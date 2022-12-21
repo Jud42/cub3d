@@ -9,7 +9,7 @@ SRC =	main.c \
 		manage_error/map_element.c \
 		manage_error/map_description.c \
 		clean.c \
-		hooks.c draw.c\
+		hooks.c draw.c utils.c\
 
 libft_DIR = ./lib/libft
 

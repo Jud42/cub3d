@@ -83,11 +83,7 @@ int	init_all(t_data *data, char *file)
 		return (1);
 	else if (init_mlx(&data))
 		return (1);
-	data->pdX = 1;//cos(data->pa) * 5;
-	data->pdY = 1;//sin(data->pa) * 5;
-	/*int i = -1;
-	while (data->map[++i])
-		printf("%s\n", data->map[i]);
-	exit (0);*/
+	data->pdX = 1;
+	data->pdY = 1;
 	return (0);
 }
