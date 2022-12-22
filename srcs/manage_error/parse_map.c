@@ -45,8 +45,8 @@ static int     check_position(t_data *d)
                         d->pa = PI;
                 else
                         d->pa = 0.0;
-		d->posY = d->y * H_PIX;
-		d->posX = d->x * W_PIX;
+		d->posY = d->y * PIX;
+		d->posX = d->x * PIX;
                 return (0);
         }
         if (chr != '1' && chr != '0' && chr != ' ')
@@ -97,5 +97,6 @@ int	parse_map(t_data *d)
                 }
                 d->x = 0;
         }
+		fill_map(d);
 	return (0);
 }

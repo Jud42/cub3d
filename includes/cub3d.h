@@ -10,8 +10,7 @@
 #include "libft.h"
 
 #define EXIT 1
-#define H_PIX 32 //Height
-#define W_PIX 32 //Width
+#define PIX 64 //64 Height & 64 Width
 #define COLOR_P	0x00FF0000 //test pixel 
 #define COL_DIR_P	0x000066FF //test pixel 
 #define COL_TEST	0x0000FF66 //test pixel 
@@ -20,17 +19,15 @@
 # if defined (_linux_) //clavier azerty
 	# define UP 122
 	# define DOWN 115
-	# define LEFT 113
-	# define RIGHT 100
-	# define ROT_LEFT 65361
-	# define ROT_RIGHT 65363
+	//# define LEFT 113
+	//# define RIGHT 100
+	# define ROT_LEFT 113
+	# define ROT_RIGHT 100
 # else //clavier qwerty
 	# define UP 13
 	# define DOWN 1
-	# define LEFT 0
-	# define RIGHT 2
-	# define ROT_LEFT 123
-	# define ROT_RIGHT 124
+	# define ROT_LEFT 0
+	# define ROT_RIGHT 2
 # endif
 
 typedef struct s_color{
@@ -63,6 +60,8 @@ typedef struct s_data{
 	int	x;
 	int	y;
 	char	**map;
+	int		mapX;
+	int		mapY;
 	float	posX;
 	float	posY;
 	float	pdX;
@@ -86,6 +85,17 @@ int	take_map(t_data *d);
 int	parse_map(t_data*d);
 void clean_all(t_data *d, int flag);
 void clean_tab(char **tab, int flag);
+void	fill_map(t_data *d);
+
+//temp draw
+void	draw_empty(t_data *d);
+void	draw_player(t_data *d);
+void	draw_direction(t_data *d, int color, double rx, double ry);
+void	print_wall(t_data *d);
+void	ray_cast(t_data *d);
+
+//temp event
+int take_keycode(int keycodde, t_data *d);
 
 #endif 
 

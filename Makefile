@@ -15,10 +15,15 @@ NAME = cub3d
 SRC =	main.c \
 	tab_create.c \
 	init_struct.c \
+	utils.c	\
 	manage_error/mng_error.c \
-	manage_error/map_element.c \
-	manage_error/map_description.c \
+	manage_error/update_map.c \
+	manage_error/parse_map.c \
 	clean.c \
+	draw.c \
+	ray.c \
+	event.c \
+
 
 SRCS = $(addprefix srcs/, $(SRC))
 
