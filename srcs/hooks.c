@@ -12,30 +12,39 @@ int	take_keycode(int keycode, t_data *d)
 {
 	if (keycode == UP)
 	{
-		int y = (int) (d->posY + d->pdY*5) >> 6;
-		int x = (int) (d->posX + d->pdX*5) >> 6;
-		printf("x: %i y: %i",x,y);
-		if(d->map[x][y] == '0' || d->map[x][y] == ' ')
+		if(!collision(d, d->posX, d->posY))
 		{
 			draw_empty(d);
 			d->posY += d->pdY*5;
 			d->posX += d->pdX*5;
 			draw_player(d);
 		}
+        else
+        {
+            draw_empty(d);
+            d->posY -= d->pdY*5;
+            d->posX -= d->pdX*5;
+            draw_player(d);
+        }
 	}
 	if (keycode == DOWN)
-	{	
-		int y = (int) (d->posY - d->pdY*5) >> 6;
-		int x = (int) (d->posX - d->pdX*5) >> 6;
-		printf("x: %i y: %i",x,y);
-		if(d->map[x][y] == '0' || d->map[x][y] == ' ')
+	{
+        if(!collision(d, d->posX, d->posY))
 		{
 			draw_empty(d);
 			d->posY -= d->pdY*5;
 			d->posX -= d->pdX*5;
 			draw_player(d);
 		}
+        else
+        {
+            draw_empty(d);
+            d->posY += d->pdY*5;
+            d->posX += d->pdX*5;
+            draw_player(d);
+        }
 	}
+
 	if (keycode == LEFT || keycode == ROT_LEFT)
 	{
 		draw_empty(d);
@@ -56,6 +65,7 @@ int	take_keycode(int keycode, t_data *d)
 	}
 	if (keycode == KEY_ESC)
 		close_window(d);
-	draw_ray3d(d);
+	//draw_ray3d(d);
+
 	return (0);
 }

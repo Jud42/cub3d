@@ -10,14 +10,14 @@
 #include "../lib/libft/libft.h"
 
 #define EXIT 1
-#define H_PIX 32 //Height
-#define W_PIX 32 //Width
+#define H_PIX 16 //Height
+#define W_PIX 16 //Width
 #define COLOR_P	0x00FF0000 //test pixel
 #define COLOR_B 0x000000 
 #define COL_DIR_P	0x000066FF //test pixel 
 #define COL_TEST	0x0000FF66 //test pixel 
 #define PI 3.1415926535//pi value
-# define KEY_ESC 53
+#define KEY_ESC 53
 
 # if defined (_linux_) //clavier azerty
 	# define UP 122
@@ -42,7 +42,8 @@ typedef struct s_color
 	int BLUE;
 } t_color;
 
-typedef struct s_elements{
+typedef struct s_elements
+{
 	void	*NO; //path north texture wall
 	void	*SO; //path south texture wall
 	void	*WE; //path west texture wall
@@ -97,7 +98,8 @@ void	draw_empty(t_data *d);
 void	draw_direction(t_data *d, int color, float rx, float ry);
 int 	FixAng(int a);
 float 	degToRad(int a);
-
+void	draw_direction(t_data *d, int color, float rx, float ry);
+int     collision(t_data *d, float x, float y);
 
 #endif 
 

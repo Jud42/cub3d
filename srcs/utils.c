@@ -12,3 +12,14 @@ float degToRad(int a)
 { 
 	return a*M_PI/180.0;
 }
+
+int collision(t_data *d, float x, float y)
+{
+    int i;
+    int j;
+    i = (int)(x / 32);
+    j = (int)(y / 32);
+    if (d->map[j][i] == '1')
+        return (1);
+    return (0);
+}

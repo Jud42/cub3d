@@ -3,5 +3,5 @@ cub3d
 .idea
 .DS_Store
 file_object
-.gitignore
+minilibx
 *.o
