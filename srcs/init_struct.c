@@ -45,8 +45,8 @@ void    calcul_x_y(t_data *d)
         //d->width = x * W_PIX;
 //      if ((y - c->start_map) * H_PIX < d->height)
 		//d->height = y * H_PIX;
-        d->width = 1000;
-		d->height = 1000;
+        d->width = 800;
+		d->height = 400;
 }
 
 static int	init_mlx(t_data **data)

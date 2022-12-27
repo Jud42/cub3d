@@ -18,7 +18,9 @@
 #define COL_TEST	0x0000FF66 //test pixel 
 #define PI 3.1415926535//pi value
 #define KEY_ESC 53
-
+#define COL_RAY2D   0x68228B //test pixel
+#define COLOR_WALL  0xffffff
+#define COLOR_SPR   0x33228b
 # if defined (_linux_) //clavier azerty
 	# define UP 122
 	# define DOWN 115
@@ -26,6 +28,8 @@
 	# define RIGHT 100
 	# define ROT_LEFT 65361
 	# define ROT_RIGHT 65363
+    # define arrow_up 65365
+    # define arrow_down 65366
 # else //clavier qwerty
 	# define UP 13
 	# define DOWN 1
@@ -33,6 +37,8 @@
 	# define RIGHT 2
 	# define ROT_LEFT 123
 	# define ROT_RIGHT 124
+    # define arrow_up 126
+    # define arrow_down 125
 # endif
 
 typedef struct s_color
@@ -61,21 +67,35 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
+// Structure to represent a point in 2D space
+typedef struct s_point
+{
+    double x;
+    double y;
+} t_point;
+
+// Structure to represent a line in 2D space
+typedef struct s_line
+{
+    t_point start;
+    t_point end;
+} t_line;
+
 typedef struct s_data{
 	int  	width;
 	int  	height;
 	int		x;
 	int		y;
 	char	**map;
-	float	posX;
-	float	posY;
-	float	pdX;
-	float	pdY;
+	double	posX;
+	double	posY;
+	double	pdX;
+	double	pdY;
 	double	pa;
-	float	dirX;
-	float	dirY;
-	float	planX;
-	float	planY;
+	double	dirX;
+	double	dirY;
+	double	planX;
+	double	planY;
 	void 	*mlx_ptr;
 	void 	*mlx_win;
 	t_img		*img;
@@ -98,8 +118,10 @@ void	draw_empty(t_data *d);
 void	draw_direction(t_data *d, int color, float rx, float ry);
 int 	FixAng(int a);
 float 	degToRad(int a);
-void	draw_direction(t_data *d, int color, float rx, float ry);
 int     collision(t_data *d, float x, float y);
+void    cast_all_rays(t_data *d);
+void    castRay(t_point start, double angle,t_data *d, t_point *intersection);
+
 
 #endif 
 

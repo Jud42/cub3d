@@ -36,7 +36,7 @@ void	print_wall(t_data *d)
 			if (d->map[d->y][d->x] == '1')
 			{
 				mlx_put_image_to_window(d->mlx_ptr,\
-			d->mlx_win, d->elem->EA, d->x * 32, d->y * 32);
+			d->mlx_win, d->elem->NO, d->x * 32, d->y * 32);
 			}
 		}
 		d->y++;
@@ -52,7 +52,6 @@ int	main(int argc, char *argv[])
 		clean_all(&data, 1);
 	print_wall(&data);
 	draw_player(&data);
-	//draw_ray3d(&data);
 	mlx_key_hook(data.mlx_win, take_keycode, &data);
 	mlx_hook(data.mlx_win, 17, 0L,close_window, &data);
 	mlx_loop(data.mlx_ptr);

@@ -7,10 +7,9 @@ int	close_window(t_data *data)
 	exit(0);
 }
 
-//test pour le num clavier
 int	take_keycode(int keycode, t_data *d)
 {
-	if (keycode == UP)
+	if (keycode == UP || keycode == arrow_up)
 	{
 		if(!collision(d, d->posX, d->posY))
 		{
@@ -27,7 +26,7 @@ int	take_keycode(int keycode, t_data *d)
             draw_player(d);
         }
 	}
-	if (keycode == DOWN)
+	if (keycode == DOWN || keycode == arrow_down)
 	{
         if(!collision(d, d->posX, d->posY))
 		{
@@ -48,7 +47,7 @@ int	take_keycode(int keycode, t_data *d)
 	if (keycode == LEFT || keycode == ROT_LEFT)
 	{
 		draw_empty(d);
-		d->pa += 5;
+		d->pa += 1;
 		FixAng(d->pa);
 		d->pdX=cos(degToRad(d->pa));
 		d->pdY=-sin(degToRad(d->pa));
@@ -57,7 +56,7 @@ int	take_keycode(int keycode, t_data *d)
 	if (keycode == RIGHT || keycode == ROT_RIGHT)
 	{
 		draw_empty(d);
-		d->pa -= 5;
+		d->pa -= 1;
 		FixAng(d->pa);
 		d->pdX=cos(degToRad(d->pa));
 		d->pdY=-sin(degToRad(d->pa));
@@ -65,7 +64,5 @@ int	take_keycode(int keycode, t_data *d)
 	}
 	if (keycode == KEY_ESC)
 		close_window(d);
-	//draw_ray3d(d);
-
 	return (0);
 }
