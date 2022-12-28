@@ -12,6 +12,8 @@
 #define EXIT 1
 #define H_PIX 16 //Height
 #define W_PIX 16 //Width
+#define WIN_W 800
+#define WIN_H 600
 #define COLOR_P	0x00FF0000 //test pixel
 #define COLOR_B 0x000000 
 #define COL_DIR_P	0x000066FF //test pixel 
@@ -81,25 +83,31 @@ typedef struct s_line
     t_point end;
 } t_line;
 
-typedef struct s_data{
-	int  	width;
-	int  	height;
-	int		x;
-	int		y;
-	char	**map;
-	double	posX;
-	double	posY;
-	double	pdX;
-	double	pdY;
-	double	pa;
-	double	dirX;
-	double	dirY;
-	double	planX;
-	double	planY;
-	void 	*mlx_ptr;
-	void 	*mlx_win;
-	t_img		*img;
-	t_elements	*elem;
+typedef struct s_data
+{
+    int  	width;
+    int  	height;
+    int		x;
+    int		y;
+    char	**map;
+    float	posX;
+    float	posY;
+    float	pdX;
+    float	pdY;
+    float	pa;
+    float	dirX;
+    float	dirY;
+    float	planX;
+    float	planY;
+    float  resY;
+    float  resX;
+    char	*addr;
+    int		bpp;
+    int		size_line;
+    void 	*mlx_ptr;
+    void 	*mlx_win;
+    t_img		*img;
+    t_elements	*elem;
 }	t_data;
 	
 int 	msg_error(char *s);
@@ -120,8 +128,8 @@ int 	FixAng(int a);
 float 	degToRad(int a);
 int     collision(t_data *d, float x, float y);
 void    cast_all_rays(t_data *d);
-void    castRay(t_point start, double angle,t_data *d, t_point *intersection);
-
+void    castRay(t_data *d );
+void	img_pix_put(t_img *img, int x, int y, int color);
 
 #endif 
 

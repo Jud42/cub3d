@@ -1,11 +1,5 @@
 #include "../includes/cub3d.h" 
 
-/*
-    North (W): 0° = 360° or 0
-    South (N): 270°
-    East (E): 180°
-    West (S): 90°
- */
 
 void	init_wall(void **texture, void **mlx_ptr)
 {
@@ -51,7 +45,8 @@ int	main(int argc, char *argv[])
 	if (init_all(&data, argv[1]))
 		clean_all(&data, 1);
 	print_wall(&data);
-	draw_player(&data);
+	//draw_player(&data);
+    castRay(&data);
 	mlx_key_hook(data.mlx_win, take_keycode, &data);
 	mlx_hook(data.mlx_win, 17, 0L,close_window, &data);
 	mlx_loop(data.mlx_ptr);

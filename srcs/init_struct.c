@@ -45,8 +45,8 @@ void    calcul_x_y(t_data *d)
         //d->width = x * W_PIX;
 //      if ((y - c->start_map) * H_PIX < d->height)
 		//d->height = y * H_PIX;
-        d->width = 800;
-		d->height = 400;
+        //d->width = 800;
+		//d->height = 400;
 }
 
 static int	init_mlx(t_data **data)
@@ -61,12 +61,12 @@ static int	init_mlx(t_data **data)
 	if (!img)
 		return (msg_error("malloc() struct img\n"));
 	d->img = img;
-	d->img->mlx_img = mlx_new_image(d->mlx_ptr, d->width, d->height);
+	d->img->mlx_img = mlx_new_image(d->mlx_ptr, WIN_W, WIN_H);
 	d->img->addr = mlx_get_data_addr(d->img->mlx_img, &d->img->bpp,\
 	&d->img->line_len, &d->img->endian);
 	/*----------------*/
-	d->mlx_win = mlx_new_window(d->mlx_ptr, d->width, \
-	d->height, "Cub3D");
+	d->mlx_win = mlx_new_window(d->mlx_ptr, WIN_W, \
+	WIN_H, "Cub3D");
 	return (0);
 }
 
@@ -74,16 +74,20 @@ int	init_all(t_data *data, char *file)
 {
     data->y = -1;
    	data->x = 0;
-   	data->posY = 0.0;
-   	data->posX = 0.0;
-	data->pa = -1;
+   	data->posY = 22.0;
+   	data->posX = 12.0;
+	data->pa = -1.0;
 	data->map = create_tab(file);
 	init_element(&data->elem);
 	if (take_map(data) || parse_map(data))
 		return (1);
 	else if (init_mlx(&data))
 		return (1);
-	data->pdX = 1;
-	data->pdY = 1;
+	data->pdX = 0;
+	data->pdY = 0.66;
+    data->dirX = -1;
+    data->dirY = 0;
+    data->resX = 1920;
+    data->resY = 1080;
 	return (0);
 }

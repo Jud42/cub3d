@@ -1,79 +1,134 @@
 #include "../includes/cub3d.h"
 
 // Function to calculate the distance between two points
-double distance(t_point p1, t_point p2)
+
+//cast ray from player to wall
+
+void castRay(t_data *d)
 {
-    double xDifference = p1.x - p2.x;
-    double yDifference = p1.y - p2.y;
-    return sqrt(xDifference * xDifference + yDifference * yDifference);
-}
-
-// Function to calculate the intersection point between two lines
-t_point lineIntersectionPoint(t_line l1, t_line l2)
-{
-    // Calculate the coefficients of the equation for the line
-    double A1 = l1.end.y - l1.start.y;
-    double B1 = l1.start.x - l1.end.x;
-    double C1 = A1 * l1.start.x + B1 * l1.start.y;
-    double A2 = l2.end.y - l2.start.y;
-    double B2 = l2.start.x - l2.end.x;
-    double C2 = A2 * l2.start.x + B2 * l2.start.y;
-    double det = A1 * B2 - A2 * B1;
-
-    // Calculate the intersection point
-    t_point intersection;
-    intersection.x = (B2 * C1 - B1 * C2) / det;
-    intersection.y = (A1 * C2 - A2 * C1) / det;
-    return intersection;
-}
-
-// Function to check if two lines intersect
-int linesIntersect(t_line l1, t_line l2)
-{
-    t_point intersection = lineIntersectionPoint(l1, l2);
-
-    // Check if the intersection point is within the bounds of the two lines
-    if (intersection.x >= fmin(l1.start.x, l1.end.x) &&
-        intersection.x <= fmax(l1.start.x, l1.end.x) &&
-        intersection.x >= fmin(l2.start.x, l2.end.x) &&
-        intersection.x <= fmax(l2.start.x, l2.end.x) &&
-        intersection.y >= fmin(l1.start.y, l1.end.y) &&
-        intersection.y <= fmax(l1.start.y, l1.end.y) &&
-        intersection.y >= fmin(l2.start.y, l2.end.y) &&
-        intersection.y <= fmax(l2.start.y, l2.end.y))
+    // Vérifier si d est NULL
+    if (d == NULL)
     {
-        return 1;
+        fprintf(stderr, "Error: d is NULL\n");
+        return;
     }
-    return 0;
-}
 
-// Function to cast a ray from a point in a given direction
-void castRay(t_point start, double angle, t_data *d, t_point *intersection)
-{
-    // Create a line from the start point in the given direction
-    t_line ray;
-    ray.start = start;
-    ray.end.x = start.x + cos(angle);
-    ray.end.y = start.y + sin(angle);
+    int mapX = (int)d->posX/32;
+    int mapY = (int)d->posY/32;
 
-    // Set the intersection point to be the end of the ray
-    *intersection = ray.end;
-    // Check for intersection with each wall
-    int i;
-    i = -1;
-    while (++i < d->width)
+    // Vérifier si d->map est NULL
+    if (d->map == NULL)
     {
-        if (d->map[][] == 1 && linesIntersect(ray, wall.line))
+        fprintf(stderr, "Error: d->map is NULL\n");
+        return;
+    }
+
+    // Vérifier si les indices mapX et mapY dépassent les limites de d->map
+    if (mapX < 0 || mapX >= WIN_W || mapY < 0 || mapY >= WIN_H)
+    {
+        fprintf(stderr, "Error: mapX or mapY is out of bounds\n");
+        return;
+    }
+
+    double sideDistX;
+    double sideDistY;
+    double deltaDistX = fabs(1 / d->pdX);
+    double deltaDistY = fabs(1 / d->pdY);
+    double perpWallDist;
+
+    int stepX;
+    int stepY;
+
+    int hit = 0;
+    int side;
+
+    if (d->pdX < 0)
+    {
+        stepX = -1;
+        sideDistX = (d->posX - mapX) * deltaDistX;
+    }
+    else
+    {
+        stepX = 1;
+        sideDistX = (mapX + 1.0 - d->posX) * deltaDistX;
+    }
+    if (d->pdY < 0)
+    {
+        stepY = -1;
+        sideDistY = (d->posY - mapY) * deltaDistY;
+    }
+    else
+    {
+        stepY = 1;
+        sideDistY = (mapY + 1.0 - d->posY) * deltaDistY;
+    }
+
+    while (hit == 0)
+    {
+        if (sideDistX < sideDistY)
         {
-            // Calculate the distance to the intersection point
-            t_point tempIntersection = lineIntersectionPoint(ray, wall.line);
-            double dist = distance(start, tempIntersection);
-            // Check if this is the closest intersection
-            if (dist < distance(start, *intersection))
-            {
-                *intersection = tempIntersection;
-            }
+            sideDistX += deltaDistX;
+            mapX += stepX;
+            side = 0;
         }
-        i++;
+        else
+        {
+            sideDistY += deltaDistY;
+            mapY += stepY;
+            side = 1;
+        }
+        if (d->map[mapX][mapY] > 0)
+            hit = 1;
+    }
+    //calculate distance projected on camera direction.
+    if (side == 0)
+        perpWallDist = (mapX - d->posX + (1 - stepX) / 2) / d->pdX;
+    else
+        perpWallDist = (mapY - d->posY + (1 - stepY) / 2) / d->pdY;
+
+    //calculate height of line to draw on screen
+    int lineHeight = (int)(d->resY / perpWallDist);
+
+    //calculate lowest
+    //calculate lowest and highest pixel to fill in current stripe
+    int drawStart = -lineHeight / 2 + d->resY / 2;
+    if(drawStart < 0)
+        drawStart = 0;
+    int drawEnd = lineHeight / 2 + d->resY / 2;
+    if(drawEnd >= d->resY)
+        drawEnd = d->resY - 1;
+
+    // Vérifier si drawStart et drawEnd sont valides
+    if (drawStart < 0 || drawStart >= d->resY || drawEnd < 0 || drawEnd >= d->resY)
+    {
+        fprintf(stderr, "Error: drawStart or drawEnd out of bounds\n");
+        return;
+    }
+
+    //choose wall color
+    int color;
+    if (d->map[mapX][mapY] == 1)
+        color = 0xFF0000; //red
+    else if (d->map[mapX][mapY] == 2)
+        color = 0x00FF00; //green
+    else if (d->map[mapX][mapY] == 3)
+        color = 0x0000FF; //blue
+    else if (d->map[mapX][mapY] == 4)
+        color = 0xFFFF00; //yellow
+    else
+        color = 0xFFFFFF; //white
+
+    //give x and y sides different brightness
+    if (side == 1)
+        color = color / 2;
+
+    //draw the pixels of the stripe as a vertical line
+    int x = 0;
+    while (x < d->resX)
+    {
+        img_pix_put(d->img, x, drawStart, color);
+        if (drawStart < drawEnd)
+                drawStart++;
+        x++;
     }
 }
