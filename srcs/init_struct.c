@@ -1,11 +1,59 @@
 #include "cub3d.h"
 
-void	img_pix_put(t_img *img, int x, int y, int color)
+static int      init_img(char **texture, t_data *d, t_img *t)
 {
-	char    *pixel;
 
-    pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(int *)pixel = color;
+        t->img = mlx_xpm_file_to_image(d->mlx_ptr, *texture, \
+        &t->width, &t->height);
+        if (!t->img)
+        	return (msg_error("xpm file convert img\n"));
+        t->addr = (int *)mlx_get_data_addr(t->img, &t->bpp, \
+	&t->line_length, &t->endian);
+        if (!t->addr)
+                return (msg_error("mlx_get_addr\n")); 
+        return (0);
+}
+
+int     init_texture(t_ray *r) //free(malloc)
+{
+        if (init_img(&r->elem->NO, r->data, &r->data->texture[0]))
+                return (1);
+        if (init_img(&r->elem->SO, r->data, &r->data->texture[1]))
+                return (1);
+        if (init_img(&r->elem->EA, r->data, &r->data->texture[2]))
+                return (1);
+        if (init_img(&r->elem->WE, r->data, &r->data->texture[3]))
+                return (1);
+        r->data->img = mlx_new_image(r->data->mlx_ptr, \
+        r->data->screen_w, r->data->screen_h);
+        if (!r->data->img)
+                return (msg_error("create img mlx_new_img()\n"));
+        r->data->addr = (int *)mlx_get_data_addr(r->data->img, \
+        &r->data->bpp, &r->data->line_length, &r->data->endian);
+	if (!r->data->addr)
+        	return (msg_error("mlx_get_addr in init_texture()\n"));
+	return (0);
+}
+/*-------------------*/
+
+void    calcul_screen(t_data *d)
+{
+        mlx_get_screen_size(d->mlx_ptr, &d->screen_w, &d->screen_h);
+	if (SCREEN_WIDTH < d->screen_w)
+        	d->screen_w = SCREEN_WIDTH;
+	if (SCREEN_HEIGHT < d->screen_h)
+		d->screen_h = SCREEN_HEIGHT;
+}
+
+
+static int	init_mlx(t_ray *r)
+{
+	r->data->mlx_ptr = mlx_init();
+	calcul_screen(r->data);
+	r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
+	r->data->screen_w, r->data->screen_h, "Hello world!");
+	init_texture(r);
+	return (0);
 }
 
 void	init_element(t_elements **elem)
@@ -24,68 +72,22 @@ void	init_element(t_elements **elem)
     	(*elem)->C = 0;
 }
 
-void    calcul_x_y(t_data *d)
+int	init_all(t_ray *ray, char *file)
 {
-        int     y;
-        int     x;
-
-        if (!d->map)
-                return ;
-        x = 0;
-        y = 0;
-        while (d->map[y])
-        {
-                if (ft_strlen(d->map[y]) > x)
-                        x = ft_strlen(d->map[y]);
-                y++;
-        }
-        //mlx_get_screen_size(d->mlx_ptr, &d->width,\
-	&d->height);
-//      if (x * W_PIX < d->width)
-        //d->width = x * W_PIX;
-//      if ((y - c->start_map) * H_PIX < d->height)
-		//d->height = y * H_PIX;
-        d->width = 1000;
-	d->height = 1000;
-}
-
-
-static int	init_mlx(t_data **data)
-{
-	t_data *d;
-
-	d = *data;
-	d->mlx_ptr = mlx_init();
-	calcul_x_y(d);
-	/*--------------*///test t_img maybe dont need it
-	t_img	*img = malloc(sizeof(t_img));
-	if (!img)
-		return (msg_error("malloc() struct img\n"));
-	d->img = img;
-	d->img->mlx_img = mlx_new_image(d->mlx_ptr, d->width, d->height);
-	d->img->addr = mlx_get_data_addr(d->img->mlx_img, &d->img->bpp,\
-	&d->img->line_len, &d->img->endian);
-	/*----------------*/
-	d->mlx_win = mlx_new_window(d->mlx_ptr, d->width, \
-	d->height, "Hello world!");
-	return (0);
-}
-
-int	init_all(t_data *data, char *file)
-{
-    data->y = -1;
-   	data->x = 0;
-   	data->posY = 0.0;
-   	data->posX = 0.0;
-	data->pa = -1;
-	data->map = create_tab(file);
-	init_element(&data->elem);
-	if (take_map(data) || parse_map(data))
+   	ray->y = -1;
+   	ray->x = 0;
+	ray->pa = -1;
+	ray->map = create_tab(file);
+	init_element(&ray->elem);
+	ray->planX = 0;
+	ray->planY = 0;
+	if (take_map(ray) || parse_map(ray))
 		return (1);
-	else if (init_mlx(&data))
+	else if (init_mlx(ray))
 		return (1);
-	data->pdX = cos(data->pa) * 5;
-	data->pdY = sin(data->pa) * 5;
+	init_dir_and_plancam(ray);
+	ray->time = 0;
+	ray->oldtime = 0;
 	/*int i = -1;
 	while (data->map[++i])
 		printf("%s\n", data->map[i]);
