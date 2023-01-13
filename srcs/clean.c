@@ -35,17 +35,13 @@ void	clean_element(t_elements **elem)
 
 void	clean_data(t_data **data)
 {
-	//if ((*data)->mlx_ptr)
-	//	free((*data)->mlx_ptr);
-	//if ((*data)->mlx_win)
-	//	free((*data)->mlx_win);
-	if ((*data)->img)
-		free((*data)->img);
+	if ((*data)->view3d.img)
+		free((*data)->view3d.img);
 }
 
 void	clean_all(t_data *data, int flag)
 {
-	clean_element(&data->elem);
-	clean_data(&data);
+	//clean_element(data->player.wall_type);
+	//clean_data(&data);
 	clean_tab(data->map, flag);
 }

@@ -24,6 +24,33 @@ void	init_element(t_elements **elem)
     	(*elem)->C = 0;
 }
 
+void	textures_init(char *paths[10])
+{
+    int	i;
+
+    i = -1;
+    while (++i < 10)
+        paths[i] = NULL;
+}
+
+int	init_texture(t_data *data)
+{
+    int	i;
+
+    i = -1;
+    while (++i < 7 && data->paths[i + 2])
+    {
+        data->textures[i].img = mlx_xpm_file_to_image(data->mlx,
+                                                      data->paths[i + 2], &data->textures[i].h, &data->textures[i].w);
+        if (data->textures[i].img == NULL)
+            return (1);
+        data->textures[i].addr = mlx_get_data_addr(data->textures[i].img,
+                                                   &data->textures[i].bpp,
+                                                   &data->textures[i].line_len, &data->textures[i].endian);
+        data->textures[i].frame = 0;
+    }
+    return (0);
+}
 void    calcul_x_y(t_data *d)
 {
         int     y;
@@ -39,14 +66,6 @@ void    calcul_x_y(t_data *d)
                         x = ft_strlen(d->map[y]);
                 y++;
         }
-        //mlx_get_screen_size(d->mlx_ptr, &d->width,\
-	&d->height);
-//      if (x * W_PIX < d->width)
-        //d->width = x * W_PIX;
-//      if ((y - c->start_map) * H_PIX < d->height)
-		//d->height = y * H_PIX;
-        //d->width = 800;
-		//d->height = 400;
 }
 
 static int	init_mlx(t_data **data)
@@ -54,40 +73,29 @@ static int	init_mlx(t_data **data)
 	t_data *d;
 
 	d = *data;
-	d->mlx_ptr = mlx_init();
+	d->mlx = mlx_init();
 	calcul_x_y(d);
-	/*--------------*///test t_img maybe dont need it
-	t_img	*img = malloc(sizeof(t_img));
-	if (!img)
-		return (msg_error("malloc() struct img\n"));
-	d->img = img;
-	d->img->mlx_img = mlx_new_image(d->mlx_ptr, WIN_W, WIN_H);
-	d->img->addr = mlx_get_data_addr(d->img->mlx_img, &d->img->bpp,\
-	&d->img->line_len, &d->img->endian);
+	d->view3d.img = mlx_new_image(d->mlx, WIN_W, WIN_H);
+	d->view3d.addr = mlx_get_data_addr(d->view3d.img, &d->view3d.bpp,\
+	&d->view3d.line_len, &d->view3d.endian);
 	/*----------------*/
-	d->mlx_win = mlx_new_window(d->mlx_ptr, WIN_W, \
+	d->win = mlx_new_window(d->mlx, WIN_W, \
 	WIN_H, "Cub3D");
 	return (0);
 }
 
 int	init_all(t_data *data, char *file)
 {
-    data->y = -1;
-   	data->x = 0;
-   	data->posY = 22.0;
-   	data->posX = 12.0;
-	data->pa = -1.0;
+    data->player.dir.y = -1;
+   	data->player.dir.x = 0;
+   	data->player.pos.y = 22.0;
+   	data->player.pos.x = 12.0;
+	data->player.angle = -1.0;
 	data->map = create_tab(file);
-	init_element(&data->elem);
+	//init_element(data->player.wall_type);
 	if (take_map(data) || parse_map(data))
 		return (1);
 	else if (init_mlx(&data))
 		return (1);
-	data->pdX = 0;
-	data->pdY = 0.66;
-    data->dirX = -1;
-    data->dirY = 0;
-    data->resX = 1920;
-    data->resY = 1080;
 	return (0);
 }

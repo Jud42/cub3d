@@ -12,8 +12,9 @@
 #define EXIT 1
 #define H_PIX 16 //Height
 #define W_PIX 16 //Width
-#define WIN_W 800
-#define WIN_H 600
+#define WIN_W 2560
+#define WIN_H 1440
+#define WIN_TITLE "CUB3D"
 #define COLOR_P	0x00FF0000 //test pixel
 #define COLOR_B 0x000000 
 #define COL_DIR_P	0x000066FF //test pixel 
@@ -62,54 +63,57 @@ typedef struct s_elements
 
 typedef struct s_img
 {
-	void	*mlx_img;
+	void	*img;
 	char	*addr;
 	int		bpp; 	/* bits per pixel */
 	int		line_len;
 	int		endian;
+    int		h;
+    int		w;
+    int		frame;
 }	t_img;
 
 // Structure to represent a point in 2D space
-typedef struct s_point
+typedef struct s_vector
 {
     double x;
     double y;
-} t_point;
+} t_vector;
 
-// Structure to represent a line in 2D space
-typedef struct s_line
+typedef struct s_cam
 {
-    t_point start;
-    t_point end;
-} t_line;
+    t_vector	pos; //Position vector
+    t_vector	dir; //Looking direction vector
+    double	    angle;
+    double	    dist;
+    int		    axis;
+    t_elements 	wall_type;
+} t_cam;
 
 typedef struct s_data
 {
-    int  	width;
-    int  	height;
-    int		x;
-    int		y;
+    int x;
+    int y;
+    t_elements *elem;
+    void	*mlx;
+    void	*win;
     char	**map;
-    float	posX;
-    float	posY;
-    float	pdX;
-    float	pdY;
-    float	pa;
-    float	dirX;
-    float	dirY;
-    float	planX;
-    float	planY;
-    float  resY;
-    float  resX;
-    char	*addr;
-    int		bpp;
-    int		size_line;
-    void 	*mlx_ptr;
-    void 	*mlx_win;
-    t_img		*img;
-    t_elements	*elem;
+    size_t	map_w;
+    size_t	map_h;
+    char	*paths[10];
+    t_cam	player;
+    t_vector  cam;
+    double  resY;
+    double  resX;
+    t_img	minimap;
+    t_img	view2d;
+    t_img	view3d;
+    t_img   img;
+    t_img	textures[7];
+    int		color_floor;
+    int		color_ceiling;
 }	t_data;
-	
+
 int 	msg_error(char *s);
 char 	**create_tab(char *file);
 int 	init_all(t_data *data, char *file);
@@ -130,6 +134,9 @@ int     collision(t_data *d, float x, float y);
 void    cast_all_rays(t_data *d);
 void    castRay(t_data *d );
 void	img_pix_put(t_img *img, int x, int y, int color);
+int	    init_texture(t_data *data);
+void	textures_init(char *paths[10]);
+
 
 #endif 
 

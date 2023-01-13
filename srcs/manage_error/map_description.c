@@ -35,18 +35,18 @@ static int     check_position(t_data *d)
 	chr = d->map[d->y][d->x];
         if (chr == 'N' || chr == 'S' || chr == 'E' || chr == 'W')
         {
-                if (d->pa > -1)
+                if (d->player.angle > -1)
                         return (msg_error("multiple position identify\n"));
                 else if (chr == 'N')
-                        d->pa = PI * 3 / 2;
+                    d->player.angle = PI * 3 / 2;
                 else if (chr == 'S')
-                        d->pa = PI / 2;
+                    d->player.angle = PI / 2;
                 else if (chr == 'E')
-                        d->pa = PI;
+                    d->player.angle = PI;
                 else
-                        d->pa = 0.0;
-		d->posY = d->y * H_PIX;
-		d->posX = d->x * W_PIX;
+                    d->player.angle = 0.0;
+		d->player.pos.y = d->y * H_PIX;
+		d->player.pos.x = d->x * W_PIX;
                 return (0);
         }
         if (chr != '1' && chr != '0' && chr != ' ')

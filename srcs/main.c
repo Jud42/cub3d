@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h" 
 
-
+/*
 void	init_wall(void **texture, void **mlx_ptr)
 {
 	int	width;
@@ -36,20 +36,38 @@ void	print_wall(t_data *d)
 		d->y++;
 	}
 }
+*/
+void	init_window(t_data *data)
+{
+    data->mlx = mlx_init();
+    if (data->mlx == NULL)
+        free(data->mlx);
+    data->win = mlx_new_window(data->mlx, WIN_W, WIN_H, WIN_TITLE);
+    if (data->win == NULL)
+        free(data->mlx);
+    data->img.img = mlx_new_image(data->mlx, WIN_W, WIN_H);
+    data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bpp,
+                                   &data->img.line_len, &data->img.endian);
+}
 
 int	main(int argc, char *argv[])
 {
 	t_data data;
+    data.resX = 2560;
+    data.resY = 1442;
 
 	check_error_argument(argc, argv);
-	if (init_all(&data, argv[1]))
-		clean_all(&data, 1);
-	print_wall(&data);
-	//draw_player(&data);
+    data.mlx = mlx_init();
+    init_window(&data);
+    //textures_init(data.paths);
+    if(!data.mlx)
+        return 1;
+	/*if (init_texture(&data))
+		clean_all(&data, 1);*/
     castRay(&data);
-	mlx_key_hook(data.mlx_win, take_keycode, &data);
-	mlx_hook(data.mlx_win, 17, 0L,close_window, &data);
-	mlx_loop(data.mlx_ptr);
-	clean_all(&data, 0);
+	//mlx_key_hook(data.win, take_keycode, &data);
+	//mlx_hook(data.win, 17, 0L,close_window, &data);
+	//mlx_loop(data.mlx);
+	//clean_all(&data, 0);
 	return (0);
 }

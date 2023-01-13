@@ -4,66 +4,66 @@ void	draw_player(t_data *d)
 {
     float x;
     float y;
-    x = d->posX;
-    y = d->posY;
-	while (y < d->posY + 5)
+    x = d->player.pos.x;
+    y = d->player.pos.y;
+	while (y < d->player.pos.y + 5)
 	{
-		while (x < d->posX + 5)
-			mlx_pixel_put(d->mlx_ptr, d->mlx_win, x++, y, COLOR_P);
-        x = d->posX;
+		while (x < d->player.pos.x + 5)
+			mlx_pixel_put(d->mlx, d->win, x++, y, COLOR_P);
+        x = d->player.pos.x;
         y++;
 	}
 }
 
 void	draw_empty(t_data *d)
 {
-    float y = d->posY;
-    float x = d->posX;
-	while (y < d->posY + 5)
+    float y = d->player.pos.y;
+    float x = d->player.pos.x;
+	while (y < d->player.pos.y + 5)
 	{
-		while (x < d->posX + 5)
-			mlx_pixel_put(d->mlx_ptr, d->mlx_win, x++, y, COLOR_B);
-		x = d->posX;
+		while (x < d->player.pos.x + 5)
+			mlx_pixel_put(d->mlx, d->win, x++, y, COLOR_B);
+		x = d->player.pos.x;
 		y++;
 	}
 }
 
 void draw_ray3d(t_data *d)
 {
-    float y = d->posY + 2.5;
-    float x = d->posX + 2.5;
+    float y = d->player.pos.y + 2.5;
+    float x = d->player.pos.x + 2.5;
     int i = 0;
     while (i < 100)
     {
-        mlx_pixel_put(d->mlx_ptr, d->mlx_win, x, y, COL_RAY2D);
-        x += d->pdX/5;
-        y += d->pdY/5;
+        mlx_pixel_put(d->mlx, d->win, x, y, COL_RAY2D);
+        x += d->player.dir.x/5;
+        y += d->player.dir.y/5;
         i++;
     }
 }
 
 void cast_ray(t_data *d)
 {
-    float x = d->posX;
-    float y = d->posY;
+    float x = d->player.pos.x;
+    float y = d->player.pos.y;
     int i = 0;
     while (i < 100)
     {
-        mlx_pixel_put(d->mlx_ptr, d->mlx_win, x, y, COL_RAY2D);
-        x += d->pdX/5;
-        y += d->pdY/5;
+        mlx_pixel_put(d->mlx, d->win, x, y, COL_RAY2D);
+        x += d->player.dir.x/5;
+        y += d->player.dir.y/5;
         i++;
     }
 }
 
 void cast_all_rays(t_data *d)
 {
-    float angle = d->pa;
+    float angle = d->player.angle;
     int i = 0;
     while (i < 100)
     {
-        d->pdX = cos(angle);
-        d->pdY = -sin(angle);
+        d->player.dir.x = cos(angle);
+        d->player.dir.y = -sin(angle);
         cast_ray(d);
         angle += 0.01;
         i++;
