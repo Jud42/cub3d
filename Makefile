@@ -22,18 +22,19 @@ SRC =	main.c \
 	clean.c \
 	draw.c \
 	ray.c \
-	event.c \
+	event.c draw_minimap.c\
 
-
+libft_DIR = ./lib/libft
 SRCS = $(addprefix srcs/, $(SRC))
 
-ifeq ($(shell uname -s), Linux)
-	INCLUDE = -Iincludes -Imlx_linux -Ilibft -I/usr/include
-	LIB = -Lmlx_linux -lmlx -L/usr/lib -lXext -lX11 -lm -lz libft/libft.a
+UNAME= $(shell uname -s)
+ifeq ($(uname), Linux)
+		mlx_DIR = ./lib/mlx/linux
+		mlx_FLAGS += -lmlx -lX11 -lXext -lm -lz
 else
-	INCLUDE = -Iincludes -Iminilibx -Ilibft
-	LIB = -Lminilibx -lmlx -framework OpenGL -framework AppKit libft/libft.a
-endif 
+		mlx_DIR = ./lib/mlx
+		mlx_FLAGS += -lmlx -lm -framework OpenGL -framework AppKit
+endif
 
 FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 CC = gcc
@@ -53,21 +54,21 @@ $(DIR)/%.o : %.c
 all : $(NAME)
 
 $(NAME) : $(OB)
-	@make -C libft
+	@make -C $(libft_DIR)
+	@make -C $(mlx_DIR)
 	@echo "Compiling cub3d..."
-	@$(CC) $(FLAGS) $(OB) $(LIB) -o $@
+	@$(CC) $(FLAGS) -lft -L$(libft_DIR) -L$(mlx_DIR) $(mlx_FLAGS) $(OB) $(LIB) -o $@
 	@echo "Compilation [cub3d] is done!"
 
 clean :
 	@echo "Remove all file_object..."
 	@$(RM) $(DIR)
-	@make clean -C libft
+	@make clean -C $(libft_DIR)
 	@echo "file_object removed!"
 
 fclean : clean
 	@echo "Remove all file_object & file_binary..."
 	@$(RM) $(NAME)
-	@make fclean -C libft
 	@echo "object and binary_file removed!"
 
 re : fclean $(NAME)

@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 static int      init_img(char **texture, t_data *d, t_img *t)
 {
@@ -35,7 +35,7 @@ int     init_texture(t_ray *r) //free(malloc)
 	return (0);
 }
 /*-------------------*/
-
+/*
 void    calcul_screen(t_data *d)
 {
         mlx_get_screen_size(d->mlx_ptr, &d->screen_w, &d->screen_h);
@@ -43,15 +43,15 @@ void    calcul_screen(t_data *d)
         	d->screen_w = SCREEN_WIDTH;
 	if (SCREEN_HEIGHT < d->screen_h)
 		d->screen_h = SCREEN_HEIGHT;
-}
+}*/
 
 
 static int	init_mlx(t_ray *r)
 {
 	r->data->mlx_ptr = mlx_init();
-	calcul_screen(r->data);
+	//calcul_screen(r->data);
 	r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
-	r->data->screen_w, r->data->screen_h, "Hello world!");
+	r->data->screen_w, r->data->screen_h, "CUB3d");
 	init_texture(r);
 	return (0);
 }
@@ -88,9 +88,6 @@ int	init_all(t_ray *ray, char *file)
 	init_dir_and_plancam(ray);
 	ray->time = 0;
 	ray->oldtime = 0;
-	/*int i = -1;
-	while (data->map[++i])
-		printf("%s\n", data->map[i]);
-	exit (0);*/
+
 	return (0);
 }

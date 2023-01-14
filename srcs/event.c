@@ -1,5 +1,4 @@
-#include "cub3d.h"
-
+#include "../includes/cub3d.h"
 //test pour le num clavier
 static int	check_wall(int key, t_ray *r)
 {

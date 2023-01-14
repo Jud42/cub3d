@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "mlx.h"
+#include "../lib/mlx/mlx.h"
 #include <math.h>
-#include "libft.h"
+#include "../lib/libft/libft.h"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
