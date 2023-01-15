@@ -45,9 +45,9 @@ void	clean_data(t_data **data)
 
 }
 
-void	clean_all(t_data *data, int flag)
+void	clean_all(t_ray *ray, int flag)
 {
-	clean_element(&data->elem);
-	clean_data(&data);
-	clean_tab(data->map, flag);
+    clean_element(&ray->elem);
+    clean_data(&ray->data);
+    clean_tab(ray->map, flag);
 }

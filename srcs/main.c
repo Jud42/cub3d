@@ -13,6 +13,7 @@ int	main(int argc, char *argv[])
 
     check_error_argument(argc, argv);
     ray.data = &data;
+    //printf("argv1 = %s \n", argv[1]);
     if (init_all(&ray, argv[1]))
         clean_all(&ray, 1);
     if (init_texture(&ray))
@@ -21,7 +22,7 @@ int	main(int argc, char *argv[])
     //draw_player(&data);
     //draw_direction(&data, COL_DIR_P, 10, 10);
     //mlx_mouse_hook(data.mlx_win, exit, &ray);
-    //raycasting(&ray);
+    raycasting(&ray);
     mlx_loop_hook(data.mlx_ptr, raycasting, &ray);
     mlx_loop(data.mlx_ptr);
     clean_all(&ray, 0);

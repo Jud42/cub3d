@@ -6,112 +6,80 @@
     SOUTH (S): 90°
  */
 
-void	draw_empty(t_data *d)//test implementation rotate P
+void	my_mlx_pixel_put(t_img *t, int x, int y, int color)
 {
-	float y = d->posY;
-	float x = d->posX;
-	while (y < d->posY + 5)
-	{
-		while (x < d->posX + 5)
-		{
-			mlx_pixel_put(d->mlx_ptr, d->mlx_win,\
-			x++, y, 0x000000);
-		}
-		x = d->posX;
-		y++;
-	}
+    int	*dst;
+
+    dst = t->addr + (y * t->line_length + x * (t->bpp / 8));
+    *(unsigned int*)dst = color;
 }
 
-/*---------------------------*/
-void	draw_player(t_data *d)//test implementation rotate P
+void	init_text(t_ray *r, t_text **t)
 {
-	double y = d->posY;
-	double x = d->posX;
-	while (y < d->posY + 5)
-	{
-		while (x < d->posX + 5)
-		{
-			mlx_pixel_put(d->mlx_ptr, d->mlx_win,\
-			x++, y, COLOR_P);
-		}
-		x = d->posX;
-		y++;
-	}
+    *t = malloc(sizeof(t_text));
+    if (!*t)
+        ;//
+    if (r->side == 0 && r->raydirX < 0.)
+        (*t)->texdir = 0;
+    if (r->side == 0 && r->raydirX >= 0.)
+        (*t)->texdir = 1;
+    if (r->side == 1 && r->raydirY < 0.)
+        (*t)->texdir = 2;
+    if (r->side == 1 && r->raydirY >= 0.)
+        (*t)->texdir = 3;
+    if (r->side == 0)
+        (*t)->wallX = r->posY + r->perpdwalldst * r->raydirY;
+    else
+        (*t)->wallX = r->posX + r->perpdwalldst * r->raydirX;
+    (*t)->wallX -= floor((*t)->wallX);
 }
 
-/*----------------------------*/
-void	draw_direction(t_data *d, int color, double rx, double ry)
-{	
-	double y = d->posY + 2.5;
-	double x = d->posX + 2.5;
+void	draw_texture(t_ray *r, int x, int y)
+{
+    t_text *t;
 
-	
-	printf("cos pdx => %f\tsin pdY %f\n", d->pdX, d->pdY);
-	printf("%f\n", d->pa);
-	//vertical
-	if (d->pa == 0.0 && d->pdX > 0)
-		while (x < d->posX + 2.5 + rx)
-			mlx_pixel_put(d->mlx_ptr, d->mlx_win, x++, y, color);
-	else if (d->pa == PI && d->pdX < 0)
-	{
-		while (x > d->posX + 2.5 - rx)
-			mlx_pixel_put(d->mlx_ptr, d->mlx_win, x--, y, color);		
-	}
-	else if (d->pdY > 0)	
-	{
-		while (y < (d->pdY + d->posY) + ry)
-		{
-			mlx_pixel_put(d->mlx_ptr, d->mlx_win, x, y, color);
-			x += d->pdX/5;
-			y += d->pdY/5;
-		}
-	}
-	else if (d->pdY < 0)
-	{
-		while (y > (d->pdY + d->posY) - ry + PIX + 2.5)
-		{
-			mlx_pixel_put(d->mlx_ptr, d->mlx_win, x, y, color);
-			x += d->pdX/5;
-			y += d->pdY/5;
-		}
-	}
-	draw_player(d);
+    y = r->drawstart - 1;
+    init_text(r, &t);
+    t->step = 1.0 * r->data->texture[0].height / r->lineHeight;
+    t->texX = (int)(t->wallX * (double)r->data->texture[t->texdir].width);
+    if (r->side == 0 && r->raydirX > 0.)
+        t->texX = r->data->texture[t->texdir].width - t->texX - 1;
+    if (r->side == 1 && r->raydirY < 0.)
+        t->texX = r->data->texture[t->texdir].width - t->texX - 1;
+    t->texpos = (r->drawstart - r->data->screen_h / 2 + \
+	r->lineHeight / 2) * t->step;
+    while (++y <= r->drawend)
+    {
+        t->texY = (int)t->texpos & \
+		(r->data->texture[t->texdir].height - 1);
+        t->texpos += t->step;
+        if (y < r->data->screen_h && x < r->data->screen_w)
+        {
+            r->data->addr[y * r->data->line_length / 4  + x] \
+			= r->data->texture[t->texdir].addr[t->texY * \
+			r->data->texture[t->texdir].line_length / 4 + \
+			t->texX];
+        }
+    }
+    free(t);// a la fin
 }
 
-/*-------------------*/
-static void	init_wall(void **texture, void **mlx_ptr)
+void	ft_draw_column(t_ray *r)
 {
-	int	width;
-	int	height;
-	void 	*path;
-	
-	path = mlx_xpm_file_to_image(*mlx_ptr, (char *)*texture, &width, &height);
-	free(*texture);
-	*texture = path;
-}
+    int	y;
 
-void	print_wall(t_data *d)
-{
-	if (d->elem->NO)
-		init_wall(&d->elem->NO, &d->mlx_ptr);
-	if (d->elem->SO)
-		init_wall(&d->elem->SO, &d->mlx_ptr);
-	if (d->elem->EA)
-		init_wall(&d->elem->EA, &d->mlx_ptr);
-	if (d->elem->WE)
-		init_wall(&d->elem->WE, &d->mlx_ptr);
-	d->y = 0;
-	while (d->map[d->y])
-	{
-		d->x = -1;
-		while (d->map[d->y][++d->x])
-		{
-			if (d->map[d->y][d->x] == '1')
-			{
-				mlx_put_image_to_window(d->mlx_ptr,\
-			d->mlx_win, d->elem->EA, d->x * PIX, d->y * PIX);
-			}
-		}
-		d->y++;
-	}
+    y = -1;
+    while (++y < r->drawstart)
+    {
+        r->data->addr[y * r->data->line_length / 4 + r->x] = \
+		0x00FF0000; //r->elem->c in this place
+    }
+    if (y <= r->drawend)
+        draw_texture(r, r->x, y);
+    y = r->drawend - 1;
+    while (++y < r->data->screen_h)
+    {
+        r->data->addr[y * r->data->line_length / 4 + r->x] = \
+		0x000000FF; //r->elem->f in this place
+    }
 }

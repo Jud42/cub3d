@@ -50,10 +50,10 @@ static int	init_mlx(t_ray *r)
 {
     r->data->mlx_ptr = mlx_init();
     //calcul_screen(r->data);
-    d->screen_w = SCREEN_WIDTH;
-    d->screen_h = SCREEN_HEIGHT;
+    r->data->screen_h = SCREEN_HEIGHT;
+    r->data->screen_w = SCREEN_WIDTH;
     r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
-	r->data->screen_w, r->data->screen_h, "Hello world!");
+	r->data->screen_w, r->data->screen_h, "Cub3D");
     init_texture(r);
     return (0);
 }
