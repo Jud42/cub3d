@@ -3,15 +3,15 @@
 static int      init_img(char **texture, t_data *d, t_img *t)
 {
 
-        t->img = mlx_xpm_file_to_image(d->mlx_ptr, *texture, \
+    t->img = mlx_xpm_file_to_image(d->mlx_ptr, *texture, \
         &t->width, &t->height);
-        if (!t->img)
-        	return (msg_error("xpm file convert img\n"));
-        t->addr = (int *)mlx_get_data_addr(t->img, &t->bpp, \
+    if (!t->img)
+        return (msg_error("xpm file convert img\n"));
+    t->addr = (int *)mlx_get_data_addr(t->img, &t->bpp, \
 	&t->line_length, &t->endian);
-        if (!t->addr)
-                return (msg_error("mlx_get_addr\n")); 
-        return (0);
+    if (!t->addr)
+        return (msg_error("mlx_get_addr\n"));
+    return (0);
 }
 
 int     init_texture(t_ray *r) //free(malloc)
@@ -48,12 +48,14 @@ void    calcul_screen(t_data *d)
 
 static int	init_mlx(t_ray *r)
 {
-	r->data->mlx_ptr = mlx_init();
-	//calcul_screen(r->data);
-	r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
-	r->data->screen_w, r->data->screen_h, "CUB3d");
-	init_texture(r);
-	return (0);
+    r->data->mlx_ptr = mlx_init();
+    //calcul_screen(r->data);
+    d->screen_w = SCREEN_WIDTH;
+    d->screen_h = SCREEN_HEIGHT;
+    r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
+	r->data->screen_w, r->data->screen_h, "Hello world!");
+    init_texture(r);
+    return (0);
 }
 
 void	init_element(t_elements **elem)
@@ -74,20 +76,23 @@ void	init_element(t_elements **elem)
 
 int	init_all(t_ray *ray, char *file)
 {
-   	ray->y = -1;
-   	ray->x = 0;
-	ray->pa = -1;
-	ray->map = create_tab(file);
-	init_element(&ray->elem);
-	ray->planX = 0;
-	ray->planY = 0;
-	if (take_map(ray) || parse_map(ray))
-		return (1);
-	else if (init_mlx(ray))
-		return (1);
-	init_dir_and_plancam(ray);
-	ray->time = 0;
-	ray->oldtime = 0;
-
-	return (0);
+    ray->y = -1;
+    ray->x = 0;
+    ray->pa = -1;
+    ray->map = create_tab(file);
+    init_element(&ray->elem);
+    ray->planX = 0;
+    ray->planY = 0;
+    if (take_map(ray) || parse_map(ray))
+        return (1);
+    else if (init_mlx(ray))
+        return (1);
+    init_dir_and_plancam(ray);
+    ray->time = 0;
+    ray->oldtime = 0;
+    /*int i = -1;
+    while (data->map[++i])
+        printf("%s\n", data->map[i]);
+    exit (0);*/
+    return (0);
 }

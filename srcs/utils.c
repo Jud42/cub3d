@@ -1,35 +1,36 @@
 #include "../includes/cub3d.h"
-static void	init_mapX_Y(t_ray *r)
+
+static void	init_mapX_Y(t_data *d)
 {
 	int	i;
 
 	i = 0;
-	r->mapX = ft_strlen(r->map[i]);
-	while (r->map[++i])
-		if (ft_strlen(r->map[i]) > r->mapX)
-			r->mapX = ft_strlen(r->map[i]);
-	r->mapY = i;
+	d->mapX = ft_strlen(d->map[i]);
+	while (d->map[++i])
+		if (ft_strlen(d->map[i]) > d->mapX)
+			d->mapX = ft_strlen(d->map[i]);
+	d->mapY = i;
 }
 
-void	fill_map(t_ray *r)
+void	fill_map(t_data *d)
 {
 	int	i;
 
 	i = 0;
-	init_mapX_Y(r);
-	while (r->map[i])
+	init_mapX_Y(d);
+	while (d->map[i])
 	{
-		if (ft_strlen(r->map[i]) < r->mapX)
+		if (ft_strlen(d->map[i]) < d->mapX)
 		{
 			int j = -1;
-			char *s = malloc(sizeof(char) * r->mapX + 1);
-			while (r->map[i][++j])
-				s[j] = r->map[i][j];
-			while (j < r->mapX)
+			char *s = malloc(sizeof(char) * d->mapX + 1);
+			while (d->map[i][++j])
+				s[j] = d->map[i][j];
+			while (j < d->mapX)
 				s[j++] = 32; //space
 			s[j] = '\0';
-			free(r->map[i]);
-			r->map[i] = s;
+			free(d->map[i]);
+			d->map[i] = s;
 		}
 		i++;
 	}
