@@ -1,5 +1,19 @@
 #include "cub3d.h"
 
+void	clean_image(t_ray *r)
+{
+	int	y;
+	int	x;
+	
+	x = -1;
+	while (++x < r->data->screen_w)
+	{
+		y = -1;
+		while (++y < r->data->screen_w)
+			r->data->addr[y * r->data->line_length / 4 + x] = 0;
+	}
+}
+
 void	clean_tab(char **tab, int flag)
 {
 	int	i;
@@ -25,10 +39,6 @@ void	clean_element(t_elements **elem)
 		free((*elem)->EA);
 	if ((*elem)->WE)
 		free((*elem)->WE);
-	if ((*elem)->F)
-		free((*elem)->F);
-	if ((*elem)->C)
-		free((*elem)->C);
 	if (*elem)
 		free(*elem);
 }
@@ -39,8 +49,8 @@ void	clean_data(t_data **data)
 	//	free((*data)->mlx_ptr);
 	//if ((*data)->mlx_win)
 	//	free((*data)->mlx_win);
-	if ((*data)->img)
-		free((*data)->img);
+	//if ((*data)->img)
+	//	free((*data)->img);
 
 
 }

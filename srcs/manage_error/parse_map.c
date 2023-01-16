@@ -5,7 +5,7 @@ static int     check_space(t_ray *r)
         int     y_tmp;
 
         if (r->map[r->y][r->x - 1] != '1')
-                return (msg_error("awall not close\n"));
+                return (msg_error("wall not close", 0));
         while (r->map[r->y][r->x] && r->map[r->y][r->x] == ' ')
         {
                 y_tmp = r->y;
@@ -14,17 +14,17 @@ static int     check_space(t_ray *r)
                 r->map[y_tmp][r->x] != '1')
                         if (r->map[y_tmp][r->x] != ' ' \
                         && r->map[y_tmp][r->x] != '1')
-                                return (msg_error("bwall not close\n"));
+                                return (msg_error("wall not close", 0));
                 y_tmp = r->y;
                 while (r->map[++y_tmp] && r->map[y_tmp][r->x] != '1' && \
                 r->x < ft_strlen(r->map[y_tmp]))
                         if (r->map[y_tmp][r->x] != ' ' \
                         && r->map[y_tmp][r->x] != '1')
-                                return (msg_error("cwall not close\n"));
+                                return (msg_error("wall not close", 0));
                 ++r->x;
         }
         if (r->map[r->y][r->x] && r->map[r->y][r->x]!= '1')
-                return (msg_error("dwall not close\n"));
+                return (msg_error("wall not close", 0));
         return (0);
 }
 
@@ -36,7 +36,7 @@ static int     check_position(t_ray *r)
         if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
         {
                 if (r->pa > -1)
-                        return (msg_error("multiple position identify\n"));
+                        return (msg_error("multiple position identify", 0));
                 else if (c == 'N')
                         r->pa = PI * 3 / 2;
                 else if (c == 'S')
@@ -52,7 +52,7 @@ static int     check_position(t_ray *r)
                 return (0);
         }
         if (c != '1' && c != '0' && c != ' ')
-                return (msg_error("caracter forbidden in map\n"));
+                return (msg_error("caracter forbidden in map", 0));
         return (0);
 }
 
@@ -61,8 +61,8 @@ static int     check_char(t_ray *r)
         if (r->map[r->y][ft_strlen(r->map[r->y]) - 1] != '1' && \
         r->map[r->y][ft_strlen(r->map[r->y]) - 1] != ' ')
         {
-                printf("%c\n", r->map[r->y][ft_strlen(r->map[r->y]) - 1]);
-                return (msg_error("wall not respected\n"));
+                ft_putchar_fd(r->map[r->y][ft_strlen(r->map[r->y]) - 1], 1);
+                return (msg_error("wall not respected", 0));
         }
         while (r->map[r->y][++(r->x)])
         {
@@ -70,8 +70,8 @@ static int     check_char(t_ray *r)
                 && r->map[r->y][r->x] != ' ' || !r->map[r->y + 1] \
                 && r->map[r->y][r->x] != '1' && r->map[r->y][r->x] != ' ')
                 {
-                        printf("%c\n", r->map[r->y][r->x]);
-                        return (msg_error("wall not respected\n"));
+                        ft_putchar_fd(r->map[r->y][r->x], 1);
+                        return (msg_error("wall not respected", 0));
                 }
                 else if (check_position(r))
                         return (1);
@@ -93,7 +93,7 @@ int	parse_map(t_ray *r)
                         while (r->map[r->y][r->x] == ' ')
                                 r->x++;
                         if (r->map[r->y][r->x] && r->map[r->y][r->x] != '1') 
-                                return (msg_error("map :( not valid\n"));
+                                return (msg_error("map :( not valid", 0));
                         if (check_char(r))
                         	return (1);
                 }

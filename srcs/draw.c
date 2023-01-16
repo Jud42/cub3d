@@ -41,7 +41,7 @@ void	draw_texture(t_ray *r, int x, int y)
 
 	y = r->drawstart - 1;
 	init_text(r, &t);
-	t->step = 1.0 * r->data->texture[0].height / r->lineHeight;
+	t->step = 1.0 * r->data->texture[t->texdir].height / r->lineHeight;
 	t->texX = (int)(t->wallX * (double)r->data->texture[t->texdir].width);
 	if (r->side == 0 && r->raydirX > 0.) 
 		t->texX = r->data->texture[t->texdir].width - t->texX - 1;
@@ -73,7 +73,7 @@ void	ft_draw_column(t_ray *r)
 	while (++y < r->drawstart)
 	{
 		r->data->addr[y * r->data->line_length / 4 + r->x] = \
-		0x00FF0000; //r->elem->c in this place
+		r->elem->C; //r->elem->c in this place
 	}
 	if (y <= r->drawend)
 		draw_texture(r, r->x, y);
@@ -81,6 +81,6 @@ void	ft_draw_column(t_ray *r)
 	while (++y < r->data->screen_h)
 	{
 		r->data->addr[y * r->data->line_length / 4 + r->x] = \
-		0x000000FF; //r->elem->f in this place
+		r->elem->F; //r->elem->f in this place
 	}
 }

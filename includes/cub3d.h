@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "mlx.h"
 #include <math.h>
+#include <time.h>
 #include "libft.h"
 
 #define SCREEN_WIDTH 800
@@ -43,8 +44,8 @@ typedef struct s_elements{
 	char	*SO; //path south texture wall
 	char	*WE; //path west texture wall
 	char	*EA; //path east texture wall
-	int	*F; //color sol
-	int	*C; //color plafond
+	int	F; //color sol
+	int	C; //color plafond
 }	t_elements;
 
 typedef struct s_img
@@ -97,6 +98,8 @@ typedef struct s_ray{
 	double	planY;	
 	double	time;
 	double	oldtime;
+	double	movespeed;
+	double	rotspeed;
 	double	cameraX;
 	double	raydirX;
 	double	raydirY;
@@ -105,6 +108,7 @@ typedef struct s_ray{
 	double	deltadstX;
 	double	deltadstY;
 	double	perpdwalldst;
+	int	**buffer;
 	int	stepX;
 	int	stepY;
 	int	lineHeight;
@@ -117,7 +121,7 @@ typedef struct s_ray{
 }	t_ray;
 
 	
-int msg_error(char *s);
+int msg_error(char *s, int flag);
 char **create_tab(char *file);
 int init_all(t_ray *ray, char *file);
 void check_error_argument(int ac, char **av);
@@ -125,7 +129,9 @@ int	take_map(t_ray *r);
 int	parse_map(t_ray *r);
 void clean_all(t_ray *r, int flag);
 void clean_tab(char **tab, int flag);
+void	clean_element(t_elements **elem);
 void	fill_map(t_ray *r);
+int	take_color(char *line, t_elements *elem);
 
 //temp draw
 void	draw_empty(t_ray *r);
@@ -142,6 +148,10 @@ void	ft_draw_column(t_ray *r);
 int	raycasting(t_ray *r);
 
 void	init_dir_and_plancam(t_ray *r);
+void	clean_image(t_ray *r);
+void	calcul_time(t_ray *r);
+char	*conv_hexe(int n);
+int	ft_atoi_hexe(const char *str);
 
 #endif 
 

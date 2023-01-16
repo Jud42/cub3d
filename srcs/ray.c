@@ -39,7 +39,8 @@ static void	ft_dda(t_ray *r)
 			r->mapY += r->stepY;
 			r->side = 1;
 		}
-		if (r->map[r->mapY][r->mapX] == '1') //30 = '0'
+		if (r->map[r->mapY][r->mapX] == '1' || 
+		r->map[r->mapY][r->mapX] == 32)
 			r->hit = 1;
 	}
 }
@@ -72,16 +73,16 @@ static void	init_step_side(t_ray *r)
 static void	init_deltax_y(t_ray *r)
 {
 	r->hit = 0;
-	r->perpdwalldst = 0;
+	r->perpdwalldst = 0.;
 	r->cameraX = 2 * r->x / (double)r->data->screen_w - 1;
 	r->raydirX = r->pdX + r->planX * r->cameraX; // 5;
 	r->raydirY = r->pdY + r->planY * r->cameraX; // 5;
 	r->mapX = (int)r->posX;
 	r->mapY = (int)r->posY;
 	if (r->raydirY == 0.)
-		r->deltadstX = 0;
+		r->deltadstX = 0.;
 	else if (r->raydirX == 0.)
-		r->deltadstX = 1;
+		r->deltadstX = 1.;
 	else
 	{
 		r->deltadstX = sqrt(1 + (r->raydirY * r->raydirY) \
@@ -90,7 +91,7 @@ static void	init_deltax_y(t_ray *r)
 	if (r->raydirX == 0.)
 		r->deltadstY = 0;
 	else if (r->raydirY == 0.)
-		r->deltadstY = 1;
+		r->deltadstY = 1.;
 	else
 	{
 		r->deltadstY = sqrt(1 + (r->raydirX * r->raydirX) \

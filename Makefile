@@ -16,6 +16,7 @@ SRC =	main.c \
 	tab_create.c \
 	init_struct.c \
 	utils.c	\
+	take_color_map.c \
 	manage_error/mng_error.c \
 	manage_error/update_map.c \
 	manage_error/parse_map.c \
