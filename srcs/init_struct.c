@@ -48,9 +48,11 @@ void    calcul_screen(t_data *d)
 static int	init_mlx(t_ray *r)
 {
 	r->data->mlx_ptr = mlx_init();
+	if (!r->data->mlx_ptr)
+		return (msg_error("mlx_ptr", 0));
 	calcul_screen(r->data);
 	r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
-	r->data->screen_w, r->data->screen_h, "Hello world!");
+	r->data->screen_w, r->data->screen_h, "cub3d");
 	if (!r->data->mlx_win)
 		return (msg_error("mlx_win", 0));
 	return (init_texture(r));

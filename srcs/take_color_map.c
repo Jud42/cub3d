@@ -32,6 +32,22 @@ static int	take_rgb_hexe(char **tab_rgb, char **str_hexe)
 	return (0);
 }
 
+static int	check_digit(char **tab)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (tab[++i])
+	{
+		j = -1;
+		while (tab[i][++j])
+			if (!ft_isdigit(tab[i][j]))
+				return(1);
+	}
+	return (0);
+}
+
 static int	create_tab_rgb(char *line, char ***tab_ret)
 {
 	char	**tab;
@@ -45,7 +61,8 @@ static int	create_tab_rgb(char *line, char ***tab_ret)
 	}
 	*tab_ret = ft_split(tab[1], ',');
 	clean_tab(tab, 0);
-	if (!*tab_ret || !(*tab_ret)[1] || !(*tab_ret)[2] || (*tab_ret)[3])
+	if (!*tab_ret || !(*tab_ret)[1] || !(*tab_ret)[2] \
+	|| (*tab_ret)[3] || check_digit(*tab_ret))
 	{
 		if (*tab_ret)
 			clean_tab(*tab_ret, 0);

@@ -23,7 +23,7 @@ static int     check_space(t_ray *r)
                                 return (msg_error("wall not close", 0));
                 ++r->x;
         }
-        if (r->map[r->y][r->x] && r->map[r->y][r->x]!= '1')
+        if (r->map[r->y][r->x] && r->map[r->y][r->x] != '1')
                 return (msg_error("wall not close", 0));
         return (0);
 }
@@ -41,7 +41,7 @@ static int     check_position(t_ray *r)
                         r->pa = PI * 3 / 2;
                 else if (c == 'S')
                         r->pa = PI / 2;
-                else if (c == 'E')
+                else if (c == 'W')
                         r->pa = PI;
                 else
                         r->pa = 0.0;
@@ -67,8 +67,8 @@ static int     check_char(t_ray *r)
         while (r->map[r->y][++(r->x)])
         {
                 if (r->y == 0 && r->map[r->y][r->x] != '1' \
-                && r->map[r->y][r->x] != ' ' || !r->map[r->y + 1] \
-                && r->map[r->y][r->x] != '1' && r->map[r->y][r->x] != ' ')
+                && r->map[r->y][r->x] != ' ' || !r->map[r->y + 1])
+                //&& r->map[r->y][r->x] != '1' && r->map[r->y][r->x] != ' ')
                 {
                         ft_putchar_fd(r->map[r->y][r->x], 1);
                         return (msg_error("wall not respected", 0));
