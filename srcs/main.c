@@ -16,15 +16,10 @@ int	main(int argc, char *argv[])
 	ray.data = &data;
 	if (init_all(&ray, argv[1]))
 		clean_all(&ray, 1);
-	//if (init_texture(&ray))
-	//	clean_all(&ray, 1);
-	//print_wall(&ray);
-	//draw_player(&data);
-	//draw_direction(&data, COL_DIR_P, 10, 10);
-	//mlx_mouse_hook(data.mlx_win, exit, &ray);
-	//raycasting(&ray);
-	mlx_hook(data.mlx_win, 2, 1L << 0, take_keycode, &ray);
+	mlx_hook(data.mlx_win, 2, 1L << 0, ft_keypress, &ray);
+	mlx_hook(data.mlx_win, 17, 1L << 0, ft_close, &ray);
 	mlx_loop_hook(data.mlx_ptr, raycasting, &ray);
+	//mlx_hook(data.mlx_win, 3, 1L << 1, ft_keyrelease, &ray);
 	mlx_loop(data.mlx_ptr);
 	clean_all(&ray, 0);
 	return (0);

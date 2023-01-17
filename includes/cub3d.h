@@ -19,20 +19,19 @@
 #define COL_TEST	0x0000FF66 //test pixel 
 #define PI 3.1415926535//pi value
 
-//# if defined (_linux_) //clavier azerty
+# ifdef __linux__ //clavier azerty
 	# define UP 122
 	# define DOWN 115
-	//# define LEFT 113
-	//# define RIGHT 100
 	# define ROT_LEFT 113
 	# define ROT_RIGHT 100
-/*# else //clavier qwerty
+	# define CLOSE 65307 
+# else //mac
 	# define UP 13
 	# define DOWN 1
 	# define ROT_LEFT 0
 	# define ROT_RIGHT 2
 # endif
-*/
+
 typedef struct s_color{
 	int RED;
 	int GREEN;
@@ -141,7 +140,8 @@ void	print_wall(t_ray *r);
 void	ray_cast(t_data *d);
 
 //temp event
-int take_keycode(int keycodde, t_ray *r);
+int 	ft_keypress(int keycode, t_ray *r);
+int	ft_keyrelease(int keycode, t_ray *r);
 
 int	init_texture(t_ray *r);
 void	ft_draw_column(t_ray *r);
@@ -153,5 +153,6 @@ void	calcul_time(t_ray *r);
 char	*conv_hexe(int n);
 int	ft_atoi_hexe(const char *str);
 
+int	ft_close(t_ray *r);
 #endif 
 

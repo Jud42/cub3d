@@ -1,25 +1,13 @@
 #include "cub3d.h"
 
-/*
-    WEST (W): 0° = 360° or 0
-    NORTH (N): 270°
-    EAST (E): 180°
-    SOUTH (S): 90°
- */
-
-void	my_mlx_pixel_put(t_img *t, int x, int y, int color)
-{
-	int	*dst;
-
-	dst = t->addr + (y * t->line_length + x * (t->bpp / 8));
-	*(unsigned int*)dst = color;
-}
-
 void	init_text(t_ray *r, t_text **t)
 {
 	*t = malloc(sizeof(t_text));
 	if (!*t)
-		;//
+	{
+		msg_error("malloc() in init_text()", 0);
+		clean_all(r, EXIT);
+	}
 	if (r->side == 0 && r->raydirX < 0.)
 		(*t)->texdir = 0;
 	if (r->side == 0 && r->raydirX >= 0.)
@@ -35,34 +23,34 @@ void	init_text(t_ray *r, t_text **t)
 	(*t)->wallX -= floor((*t)->wallX);
 }
 
-void	draw_texture(t_ray *r, int x, int y)
+void	draw_texture(t_ray *r, int x, int *y)
 {
 	t_text *t;
 
-	y = r->drawstart - 1;
 	init_text(r, &t);
 	t->step = 1.0 * r->data->texture[t->texdir].height / r->lineHeight;
 	t->texX = (int)(t->wallX * (double)r->data->texture[t->texdir].width);
-	if (r->side == 0 && r->raydirX > 0.) 
+	if (r->side == 0 && r->raydirX < 0.) 
 		t->texX = r->data->texture[t->texdir].width - t->texX - 1;
-	if (r->side == 1 && r->raydirY < 0.)
+	if (r->side == 1 && r->raydirY > 0.)
 		t->texX = r->data->texture[t->texdir].width - t->texX - 1;
 	t->texpos = (r->drawstart - r->data->screen_h / 2 + \
 	r->lineHeight / 2) * t->step;
-	while (++y <= r->drawend)
+	while (*y <= r->drawend)
 	{
 		t->texY = (int)t->texpos & \
 		(r->data->texture[t->texdir].height - 1);
 		t->texpos += t->step;
-		if (y < r->data->screen_h && x < r->data->screen_w)
+		if (*y < r->data->screen_h && x < r->data->screen_w)
 		{
-			r->data->addr[y * r->data->line_length / 4  + x] \
+			r->data->addr[*y * r->data->line_length / 4  + x] \
 			= r->data->texture[t->texdir].addr[t->texY * \
-			r->data->texture[t->texdir].line_length / 4 + \
+			r->data->texture[t->texdir].height + \
 			t->texX];
 		}
+		(*y)++;
 	}
-	free(t);// a la fin
+	free(t);
 }
 
 void	ft_draw_column(t_ray *r)
@@ -73,14 +61,14 @@ void	ft_draw_column(t_ray *r)
 	while (++y < r->drawstart)
 	{
 		r->data->addr[y * r->data->line_length / 4 + r->x] = \
-		r->elem->C; //r->elem->c in this place
+		r->elem->C;
 	}
 	if (y <= r->drawend)
-		draw_texture(r, r->x, y);
-	y = r->drawend - 1;
-	while (++y < r->data->screen_h)
+		draw_texture(r, r->x, &y);
+	while (y < r->data->screen_h)
 	{
 		r->data->addr[y * r->data->line_length / 4 + r->x] = \
-		r->elem->F; //r->elem->f in this place
+		r->elem->F;
+		y++;
 	}
 }

@@ -24,6 +24,7 @@ SRC =	main.c \
 	draw.c \
 	ray.c \
 	event.c \
+	ft_close.c \
 
 
 SRCS = $(addprefix srcs/, $(SRC))

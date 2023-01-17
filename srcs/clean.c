@@ -43,21 +43,17 @@ void	clean_element(t_elements **elem)
 		free(*elem);
 }
 
-void	clean_data(t_data **data)
+void	clean_data_mlx(t_data **data)
 {
-	//if ((*data)->mlx_ptr)
-	//	free((*data)->mlx_ptr);
-	//if ((*data)->mlx_win)
-	//	free((*data)->mlx_win);
-	//if ((*data)->img)
-	//	free((*data)->img);
-
-
+	if ((*data)->img)
+		mlx_destroy_image((*data)->mlx_ptr, (*data)->img);
+	if ((*data)->mlx_win)
+		mlx_destroy_window((*data)->mlx_ptr, (*data)->mlx_win);
 }
 
 void	clean_all(t_ray *ray, int flag)
 {
 	clean_element(&ray->elem);
-	clean_data(&ray->data);
+	clean_data_mlx(&ray->data);
 	clean_tab(ray->map, flag);
 }

@@ -101,7 +101,7 @@ static void	init_deltax_y(t_ray *r)
 
 int	raycasting(t_ray *r)
 {
-	r->x = -1;	
+	r->x = -1;
 	while(++r->x < r->data->screen_w)
 	{
 		init_deltax_y(r);
