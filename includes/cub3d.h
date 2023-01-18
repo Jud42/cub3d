@@ -38,7 +38,8 @@
     # define CLOSE 53
 # endif
 
-typedef struct s_color{
+typedef struct s_color
+{
 	int RED;
 	int GREEN;
 	int BLUE;
