@@ -1,18 +1,32 @@
-
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/01/18 20:23:26 by Blaze             #+#    #+#              #
+#    Updated: 2023/01/18 20:23:37 by Blaze            ###    42Lausanne.ch     #
+#                                                                              #
+# **************************************************************************** #
 
 NAME = cub3d
 
 SRC =	main.c \
-		tab_create.c \
-		init_struct.c \
-		manage_error/mng_error.c \
-		manage_error/map_element.c \
-		manage_error/map_description.c \
-		clean.c \
-		hooks.c draw.c utils.c raycasting.c\
+	tab_create.c \
+	init_struct.c \
+	utils.c	\
+	take_color_map.c \
+	manage_error/mng_error.c \
+	manage_error/update_map.c \
+	manage_error/parse_map.c \
+	clean.c \
+	draw.c \
+	ray.c \
+	event.c \
+	ft_close.c \
 
 libft_DIR = ./lib/libft
-
 SRCS = $(addprefix srcs/, $(SRC))
 
 UNAME= $(shell uname -s)
@@ -24,7 +38,7 @@ else
 		mlx_FLAGS += -lmlx -lm -framework OpenGL -framework AppKit
 endif
 
-FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 CC = gcc
 
 RM = rm -rf
@@ -59,5 +73,10 @@ fclean : clean
 	@$(RM) $(NAME)
 	@echo "object and binary_file removed!"
 
+debug: FLAGS += -g3 -D DEBUG=1
+debug: all
+asan: FLAGS += -g3 -fsanitize=address -fno-omit-frame-pointer
+asan: all
+
 re : fclean $(NAME)
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug asan

@@ -8,16 +8,10 @@ static int     nb_line_tab(char *file)
 
         fd = open(file, O_RDONLY);
         if (fd < 0)
-        {
-                printf("error open() .cub\n");
-                exit (EXIT_FAILURE);
-        }
+                msg_error("error open() file", EXIT);
         s = get_next_line(fd);
         if (!s)
-        {
-                printf("error Empty file\n");
-                exit(1);
-        }
+                msg_error("error Empty file", EXIT);
         ret = 0;
         while (s != NULL)
         {
@@ -38,7 +32,7 @@ static char    *new_string(char *s)
         new_s = malloc(sizeof(char) * ft_strlen(s));
         if (!new_s)
         {
-                msg_error("malloc() delete_new_line\n");
+                msg_error("malloc() delete_new_line", 0);
                 return (NULL);
         }
         i = -1;
@@ -83,12 +77,12 @@ static void    alloc_new_tab(char **tab, char ***new_tab)
                 *new_tab = malloc(sizeof(char *) * (i + 1 - n));
                 if (!*new_tab)
                 {
-                        msg_error("malloc(): delete_new_line()\n");
+                        msg_error("malloc(): delete_new_line()", 0);
                         clean_tab(tab, EXIT);
                 }
                 return ;
         }
-        msg_error("map format '\\n'\n");
+        msg_error("map format '\\n'", 0);
         clean_tab(tab, EXIT);
 }
 
@@ -129,11 +123,10 @@ char    **create_tab(char *file)
 
         tab = malloc(sizeof(char *) * (nb_line_tab(file) + 1));
         if (!tab)
-        {
-                printf("erro malloc_tab\n");
-                exit(1);
-        }
+                msg_error("malloc tab in create_tab()", EXIT);
         fd = open(file, O_RDONLY);
+	if (fd < 0)
+		msg_error("file not found", EXIT);
         i = 0;
         tab[i] = get_next_line(fd);
         while (tab[i++])

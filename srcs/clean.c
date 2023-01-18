@@ -1,5 +1,19 @@
 #include "../includes/cub3d.h"
 
+void	clean_image(t_ray *r)
+{
+	int	y;
+	int	x;
+	
+	x = -1;
+	while (++x < r->data->screen_w)
+	{
+		y = -1;
+		while (++y < r->data->screen_w)
+			r->data->addr[y * r->data->line_length / 4 + x] = 0;
+	}
+}
+
 void	clean_tab(char **tab, int flag)
 {
 	int	i;
@@ -25,23 +39,21 @@ void	clean_element(t_elements **elem)
 		free((*elem)->EA);
 	if ((*elem)->WE)
 		free((*elem)->WE);
-	if ((*elem)->F)
-		free((*elem)->F);
-	if ((*elem)->C)
-		free((*elem)->C);
 	if (*elem)
 		free(*elem);
 }
 
-void	clean_data(t_data **data)
+void	clean_data_mlx(t_data **data)
 {
-	if ((*data)->view3d.img)
-		free((*data)->view3d.img);
+	if ((*data)->img)
+		mlx_destroy_image((*data)->mlx_ptr, (*data)->img);
+	if ((*data)->mlx_win)
+		mlx_destroy_window((*data)->mlx_ptr, (*data)->mlx_win);
 }
 
-void	clean_all(t_data *data, int flag)
+void	clean_all(t_ray *ray, int flag)
 {
-	//clean_element(data->player.wall_type);
-	//clean_data(&data);
-	clean_tab(data->map, flag);
+	clean_element(&ray->elem);
+	clean_data_mlx(&ray->data);
+	clean_tab(ray->map, flag);
 }

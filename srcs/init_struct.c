@@ -1,101 +1,99 @@
 #include "../includes/cub3d.h"
 
-void	img_pix_put(t_img *img, int x, int y, int color)
+static int      init_img(char **texture, t_data *d, t_img *t)
 {
-	char    *pixel;
 
-    pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(int *)pixel = color;
+        t->img = mlx_xpm_file_to_image(d->mlx_ptr, *texture, \
+        &t->width, &t->height);
+        if (!t->img)
+        	return (msg_error("path xpm not found", 0));
+        t->addr = (int *)mlx_get_data_addr(t->img, &t->bpp, \
+	&t->line_length, &t->endian);
+        if (!t->addr)
+                return (msg_error("mlx_get_addr", 0)); 
+        return (0);
 }
 
-void	init_element(t_elements **elem)
+int     init_texture(t_ray *r) //free(malloc)
 {
-	*elem = malloc(sizeof(t_elements));
-	if (!*elem)
-	{
-		printf("error: malloc() init_elem\n");
-		return ;
-	}
-		(*elem)->NO = NULL;
-    	(*elem)->SO = NULL;
-    	(*elem)->WE = NULL;
-    	(*elem)->EA = NULL;
-    	(*elem)->F = 0;
-    	(*elem)->C = 0;
-}
-
-void	textures_init(char *paths[10])
-{
-    int	i;
-
-    i = -1;
-    while (++i < 10)
-        paths[i] = NULL;
-}
-
-int	init_texture(t_data *data)
-{
-    int	i;
-
-    i = -1;
-    while (++i < 7 && data->paths[i + 2])
-    {
-        data->textures[i].img = mlx_xpm_file_to_image(data->mlx,
-                                                      data->paths[i + 2], &data->textures[i].h, &data->textures[i].w);
-        if (data->textures[i].img == NULL)
-            return (1);
-        data->textures[i].addr = mlx_get_data_addr(data->textures[i].img,
-                                                   &data->textures[i].bpp,
-                                                   &data->textures[i].line_len, &data->textures[i].endian);
-        data->textures[i].frame = 0;
-    }
-    return (0);
-}
-void    calcul_x_y(t_data *d)
-{
-        int     y;
-        int     x;
-
-        if (!d->map)
-                return ;
-        x = 0;
-        y = 0;
-        while (d->map[y])
-        {
-                if (ft_strlen(d->map[y]) > x)
-                        x = ft_strlen(d->map[y]);
-                y++;
-        }
-}
-
-static int	init_mlx(t_data **data)
-{
-	t_data *d;
-
-	d = *data;
-	d->mlx = mlx_init();
-	calcul_x_y(d);
-	d->view3d.img = mlx_new_image(d->mlx, WIN_W, WIN_H);
-	d->view3d.addr = mlx_get_data_addr(d->view3d.img, &d->view3d.bpp,\
-	&d->view3d.line_len, &d->view3d.endian);
-	/*----------------*/
-	d->win = mlx_new_window(d->mlx, WIN_W, \
-	WIN_H, "Cub3D");
+        if (init_img(&r->elem->NO, r->data, &r->data->texture[0]))
+                return (1);
+        if (init_img(&r->elem->SO, r->data, &r->data->texture[1]))
+                return (1);
+        if (init_img(&r->elem->EA, r->data, &r->data->texture[2]))
+                return (1);
+        if (init_img(&r->elem->WE, r->data, &r->data->texture[3]))
+                return (1);
+        r->data->img = mlx_new_image(r->data->mlx_ptr, \
+        r->data->screen_w, r->data->screen_h);
+        if (!r->data->img)
+                return (msg_error("create img mlx_new_img()", 0));
+        r->data->addr = (int *)mlx_get_data_addr(r->data->img, \
+        &r->data->bpp, &r->data->line_length, &r->data->endian);
+	if (!r->data->addr)
+        	return (msg_error("mlx_get_addr in init_texture()", 0));
 	return (0);
 }
+/*-------------------*/
 
-int	init_all(t_data *data, char *file)
+void    calcul_screen(t_data *d)
 {
-    data->player.dir.y = -1;
-   	data->player.dir.x = 0;
-   	data->player.pos.y = 22.0;
-   	data->player.pos.x = 12.0;
-	data->player.angle = -1.0;
-	data->map = create_tab(file);
-	//init_element(data->player.wall_type);
-	if (take_map(data) || parse_map(data))
+       // mlx_get_screen_size(d->mlx_ptr, &d->screen_w, &d->screen_h);
+	if (SCREEN_WIDTH < d->screen_w)
+        	d->screen_w = SCREEN_WIDTH;
+	if (SCREEN_HEIGHT < d->screen_h)
+		d->screen_h = SCREEN_HEIGHT;
+}
+
+static int	init_mlx(t_ray *r)
+{
+	r->data->mlx_ptr = mlx_init();
+	//calcul_screen(r->data);
+    r->data->screen_w = SCREEN_WIDTH;
+    r->data->screen_h = SCREEN_HEIGHT;
+	r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
+	r->data->screen_w, r->data->screen_h, "Hello world!");
+	if (!r->data->mlx_win)
+		return (msg_error("mlx_win", 0));
+	return (init_texture(r));
+}
+
+static void	init_element(t_ray *r)
+{
+	r->elem = malloc(sizeof(t_elements));
+	if (!r->elem)
+	{
+		msg_error("malloc() init_elem", 0);
+		clean_tab(r->map, EXIT);
+	}
+	r->elem->NO = NULL;
+    	r->elem->SO = NULL;
+    	r->elem->WE = NULL;
+    	r->elem->EA = NULL;
+    	r->elem->F = 0;
+    	r->elem->C = 0;
+}
+
+int	init_all(t_ray *ray, char *file)
+{
+   	ray->y = -1;
+   	ray->x = 0;
+	ray->pa = -1;
+	ray->map = create_tab(file);
+	init_element(ray);
+	ray->planX = 0;
+	ray->planY = 0;
+	if (take_map(ray) || parse_map(ray))
+	{
+		clean_element(&ray->elem);
+		clean_tab(ray->map, EXIT);
+	}
+	else if (init_mlx(ray))
 		return (1);
-	else if (init_mlx(&data))
-		return (1);
+	init_dir_and_plancam(ray);
+	ray->time = 0;
+	ray->oldtime = 0;
+	ray->movespeed = 0.1;
+	ray->rotspeed = 0.3;
 	return (0);
 }

@@ -64,9 +64,13 @@ static int	parse_wall(t_data *data, int i, int j)
 	else if ((data->play_i != 1 || data->exit_i != 1) || data->patrol > 1)
 		invalid_map(data, "You just need to have one 'P', 'E', 'R'\n");
 */
-int	msg_error(char *s)
+int	msg_error(char *s, int flag)
 {
-	printf("Error: %s", s);
+	ft_putstr_fd("Error: ", 1);
+	ft_putstr_fd(s, 1);
+	ft_putstr_fd("\n", 1);
+	if (flag == EXIT)
+		exit(EXIT_FAILURE);
 	return  (1);
 }
 
@@ -97,15 +101,9 @@ int	check_extension(const char *str, const char *substr)
 void	check_error_argument(int ac, char **av)
 {
 	if (ac != 2)
-	{
-		printf("Error Argument\n");
-		exit(EXIT_FAILURE);
-	}
+		msg_error("Argument", EXIT);
 	else if (check_extension(av[1], ".cub"))
-	{	
-		printf("Error\nMap is not valid\n");
-		exit(EXIT_FAILURE);
-	}
+		msg_error("Map is not valid", EXIT);
 	//else if (ac > 2)
 	//	ft_printf("Only 2nd argument will be taken\n");
 }
