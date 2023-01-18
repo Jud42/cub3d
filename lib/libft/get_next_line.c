@@ -1,4 +1,7 @@
 #include "libft.h"
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 2
+#endif
 
 static char	*stradd(char *s, char c)
 {
@@ -57,9 +60,11 @@ char	*get_next_line(int fd)
             return (NULL);
     line = 0;
     c = read_buf(&buf);
+    printf("c = %c\n", c);
     while (c)
     {
         line = stradd(line, c);
+        printf("line = %s\n", line);
         if (c == '\n')
             return (line);
         c = read_buf(&buf);

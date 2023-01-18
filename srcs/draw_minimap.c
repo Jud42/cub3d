@@ -1,18 +1,19 @@
-#include "../includes/cub3d.h"
+#include "cub3d.h"
+
 /*
     WEST (W): 0° = 360° or 0
     NORTH (N): 270°
     EAST (E): 180°
     SOUTH (S): 90°
  */
-/*
+
 void	my_mlx_pixel_put(t_img *t, int x, int y, int color)
 {
 	char	*dst;
 
 	dst = t->addr + (y * t->line_length + x * (t->bpp / 8));
 	*(unsigned int*)dst = color;
-}*/
+}
 
 /*-------------------*/ //for 2dmap
 void	draw_empty(t_ray *r)//test implementation rotate P

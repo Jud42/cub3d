@@ -1,14 +1,4 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mnikolov <marvin@42lausanne.ch>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/06/14 18:02:56 by rmamison          #+#    #+#              #
-#    Updated: 2022/10/04 17:10:56 by rmamison         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+
 
 NAME = cub3d
 
@@ -16,13 +6,15 @@ SRC =	main.c \
 	tab_create.c \
 	init_struct.c \
 	utils.c	\
+	take_color_map.c \
 	manage_error/mng_error.c \
 	manage_error/update_map.c \
 	manage_error/parse_map.c \
 	clean.c \
 	draw.c \
 	ray.c \
-	event.c draw_minimap.c\
+	event.c \
+	ft_close.c \
 
 libft_DIR = ./lib/libft
 SRCS = $(addprefix srcs/, $(SRC))
@@ -36,7 +28,7 @@ else
 		mlx_FLAGS += -lmlx -lm -framework OpenGL -framework AppKit
 endif
 
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 CC = gcc
 
 RM = rm -rf
@@ -71,5 +63,10 @@ fclean : clean
 	@$(RM) $(NAME)
 	@echo "object and binary_file removed!"
 
+debug: FLAGS += -g3 -D DEBUG=1
+debug: all
+asan: FLAGS += -g3 -fsanitize=address -fno-omit-frame-pointer
+asan: all
+
 re : fclean $(NAME)
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug asan
