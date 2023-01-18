@@ -3,33 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btchiman <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: rmamison <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/11 13:08:17 by btchiman          #+#    #+#             */
-/*   Updated: 2021/11/15 21:28:40 by btchiman         ###   ########.fr       */
+/*   Created: 2021/10/21 15:13:27 by rmamison          #+#    #+#             */
+/*   Updated: 2022/05/04 23:11:09 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
 int	ft_atoi(const char *str)
 {
-	long			res;
-	long			sign;
-	long			i;
+	int	conv;
+	int	negative;
 
-	res = 0;
-	sign = 1;
-	i = 0;
-	while ((str[i] <= 13 && str[i] >= 9) || (str[i] == 32))
-		i++;
-	if (str[i] == '-')
+	conv = 0;
+	negative = 1;
+	while ((*str >= '\t' && *str <= '\r') || *str == ' ')
+		str++;
+	if (*str == '+' || *str == '-')
 	{
-		sign *= -1;
-		i++;
+		if (*str++ == '-')
+			negative = -1;
 	}
-	else if (str[i] == '+')
-		i++;
-	while (str[i] >= 48 && str[i] <= 57)
-		res = res * 10 + (str[i++] - '0');
-	return ((int)(res * sign));
+	while (*str && (ft_isdigit(*str)))
+		conv = conv * 10 + (*str++ - '0');
+	return (conv * negative);
 }

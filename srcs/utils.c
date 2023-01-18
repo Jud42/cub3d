@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 static void	init_mapX_Y(t_ray *r)
 {

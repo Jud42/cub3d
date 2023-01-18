@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 static int      init_img(char **texture, t_data *d, t_img *t)
 {

@@ -1,5 +1,5 @@
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 /*
 static void	invalid_map(t_data *data, char *s)
 {

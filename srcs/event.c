@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 int	ft_keyrelease(int keycode, t_ray *r)
 {

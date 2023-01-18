@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Blaze <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: rmamison <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/19 15:04:58 by Blaze             #+#    #+#             */
-/*   Updated: 2021/11/04 14:02:04 by Blaze            ###    42Lausanne.ch    */
+/*   Created: 2021/10/11 17:46:40 by rmamison          #+#    #+#             */
+/*   Updated: 2022/04/09 10:51:45 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 size_t	ft_strlen(const char *s)
 {
-	unsigned int	i;
+	int	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i] != '\0')
-	{
 		i++;
-	}
 	return (i);
 }

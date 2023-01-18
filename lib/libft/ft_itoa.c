@@ -3,67 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btchiman <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: rmamison <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/05 18:54:29 by btchiman          #+#    #+#             */
-/*   Updated: 2021/11/12 01:24:16 by Blaze            ###    42Lausanne.ch    */
+/*   Created: 2021/11/02 11:53:10 by rmamison          #+#    #+#             */
+/*   Updated: 2022/04/09 10:51:13 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*Alloue (avec malloc(3)) et retourne une chaine de caractères représentant 
-l’integer reçu en argument. Les nombres négatifs doivent être gérés.
- * return La chaine de caractères représentant l’integer. NULL si l’allocation
- échoue.*/
-
-static int	len_n(int n)
+static int	count(int nb)
 {
-	int	len;
+	int	i;
 
-	len = 0;
-	while (n)
+	i = 0;
+	if (nb < 0 || nb == 0)
+		i = 1;
+	while (nb != 0)
 	{
-		n = n / 10;
-		len++;
-	}
-	return (len);
+		i++;
+		nb /= 10;
+	}	
+	return (i);
 }
 
-static char	*converter(int n)
+static void	convnbr(long nb, char *str, int *i)
 {
-	int		len;
-	char	*n_str;
-	char	signal;
-
-	len = 0;
-	signal = 0;
-	if (n < 0)
+	if (nb > 9)
 	{
-		n *= -1;
-		len++;
-		signal = 1;
+		convnbr(nb / 10, str, i);
+		convnbr(nb % 10, str, i);
 	}
-	len += len_n(n);
-	n_str = (char *)malloc((len + 1) * sizeof(*n_str));
-	if (n_str == NULL)
-		return (NULL);
-	n_str[len] = '\0';
-	if (signal == 1)
-		n_str[0] = '-';
-	while (n != 0)
-	{
-		n_str[--len] = n % 10 + '0';
-		n /= 10;
-	}
-	return (n_str);
+	else
+		str[(*i)++] = nb + '0';
 }
 
 char	*ft_itoa(int n)
 {
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	else if (n == 0)
-		return (ft_strdup("0"));
-	return (converter(n));
+	int		i;
+	long	nb;
+	char	*str;
+
+	nb = n;
+	str = (char *)malloc(sizeof(char) * (count(n) + 1));
+	if (!str)
+		return (NULL);
+	if (nb == 0)
+		str[0] = '0';
+	i = 0;
+	if (nb < 0)
+	{	
+		str[i++] = '-';
+		nb *= -1;
+	}
+	convnbr(nb, str, &i);
+	str[i] = '\0';
+	return (str);
 }

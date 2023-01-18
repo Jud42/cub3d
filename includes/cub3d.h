@@ -5,10 +5,9 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "mlx.h"
 #include <math.h>
 #include <time.h>
-#include "libft.h"
+#include "../lib/libft/libft.h"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
@@ -20,6 +19,7 @@
 #define PI 3.1415926535//pi value
 
 # ifdef __linux__ //clavier azerty
+    # include "../lib/mlx/linux/mlx.h"
 	# define UP 122
 	# define DOWN 115
 	# define ROT_LEFT 65361
@@ -28,6 +28,7 @@
     # define RIGHT 100
 	# define CLOSE 65307 
 # else //mac
+    # include "../lib/mlx/mlx.h"
 	# define UP 13
 	# define DOWN 1
 	# define ROT_LEFT 123

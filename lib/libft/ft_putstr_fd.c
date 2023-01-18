@@ -3,26 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btchiman <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: rmamison <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/06 19:53:14 by btchiman          #+#    #+#             */
-/*   Updated: 2021/11/11 18:00:19 by Blaze            ###    42Lausanne.ch    */
+/*   Created: 2021/11/03 11:26:04 by rmamison          #+#    #+#             */
+/*   Updated: 2022/07/11 17:59:15 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* Écrit la chaine de caractères ’s’ sur le file descriptor donné.
-#1. La chaine de caractères à écrire.
-#2. Le file descriptor sur lequel écrire.*/
-
 void	ft_putstr_fd(char *s, int fd)
 {
-	size_t	len;
+	int	i;
 
-	len = ft_strlen(s);
-	if (!s)
+	i = 0;
+	if (!s[i] || !fd)
 		return ;
-	else
-		write(fd, s, len);
+	while (s[i])
+		ft_putchar_fd(s[i++], fd);
 }
