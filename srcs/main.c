@@ -17,9 +17,9 @@ int	main(int argc, char *argv[])
 	if (init_all(&ray, argv[1]))
 		clean_all(&ray, 1);
 	mlx_hook(data.mlx_win, 2, 1L << 0, ft_keypress, &ray);
+	mlx_hook(data.mlx_win, 3, 1L << 1 ,ft_keyrelease, &ray);
 	mlx_hook(data.mlx_win, 17, 1L << 0, ft_close, &ray);
 	mlx_loop_hook(data.mlx_ptr, raycasting, &ray);
-	//mlx_hook(data.mlx_win, 3, 1L << 1, ft_keyrelease, &ray);
 	mlx_loop(data.mlx_ptr);
 	clean_all(&ray, 0);
 	return (0);

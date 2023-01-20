@@ -45,44 +45,54 @@ typedef struct s_color
 	int BLUE;
 } t_color;
 
+typedef struct s_move
+{
+    int up;
+    int down;
+    int left;
+    int right;
+    int rot_left;
+    int rot_right;
+} t_move;
+
 typedef struct s_elements{
 	char	*NO; //path north texture wall
 	char	*SO; //path south texture wall
 	char	*WE; //path west texture wall
 	char	*EA; //path east texture wall
-	int	F; //color sol
-	int	C; //color plafond
+	int		F; //color sol
+	int		C; //color plafond
 }	t_elements;
 
 typedef struct s_img
 {
 	void	*img;
-	int	*addr;
-	int	width;
-	int	height;
-	int	bpp; 	/* bits per pixel */
-	int	line_length;
-	int	endian;
+	int		*addr;
+	int		width;
+	int		height;
+	int		bpp; 	/* bits per pixel */
+	int		line_length;
+	int		endian;
 }	t_img;
 
 typedef struct s_data{
 	void 	*mlx_ptr;
 	void 	*mlx_win;
-	int	screen_w;
-	int	screen_h;	
+	int		screen_w;
+	int		screen_h;	
 	void	*img;
-	int	*addr;
-	int	bpp;
-	int	line_length;
-	int	endian;
+	int		*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
 	t_img	texture[4];
 }	t_data;
 
 typedef struct s_text
 {
-	int	texX;
-	int	texY;
-	int	texdir;
+	int		texX;
+	int		texY;
+	int		texdir;
 	double	texpos;
 	double	step;
 	double	wallX;
@@ -122,6 +132,7 @@ typedef struct s_ray{
 	int	drawend;
 	int	hit;
 	int	side;
+    t_move move;
 	t_elements	*elem;
 	t_data 	*data;
 }	t_ray;
@@ -148,7 +159,7 @@ void	ray_cast(t_data *d);
 
 //temp event
 int 	ft_keypress(int keycode, t_ray *r);
-int	ft_keyrelease(int keycode, t_ray *r);
+int		ft_keyrelease(int keycode, t_ray *r);
 
 int	init_texture(t_ray *r);
 void	ft_draw_column(t_ray *r);
@@ -158,7 +169,14 @@ void	init_dir_and_plancam(t_ray *r);
 void	clean_image(t_ray *r);
 void	calcul_time(t_ray *r);
 char	*conv_hexe(int n);
-int	ft_atoi_hexe(const char *str);
+int	    ft_atoi_hexe(const char *str);
+
+// move
+void move(t_ray *r);
+void left_or_right (t_ray *r);
+void	rotation_right(t_ray *r);
+void	rotation_left(t_ray *r);
+void	up_or_down(t_ray *r);
 
 int	ft_close(t_ray *r);
 #endif 
