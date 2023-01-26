@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clean.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 19:48:40 by Blaze             #+#    #+#             */
+/*   Updated: 2023/01/25 19:50:07 by Blaze            ###    42Lausanne.ch    */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 void	clean_image(t_ray *r)
 {
 	int	y;
 	int	x;
-	
+
 	x = -1;
 	while (++x < r->data->screen_w)
 	{
@@ -17,7 +29,7 @@ void	clean_image(t_ray *r)
 void	clean_tab(char **tab, int flag)
 {
 	int	i;
-	
+
 	if (!tab)
 		return ;
 	i = 0;
@@ -31,14 +43,14 @@ void	clean_tab(char **tab, int flag)
 
 void	clean_element(t_elements **elem)
 {
-	if ((*elem)->NO)
-		free((*elem)->NO);
-	if ((*elem)->SO)
-		free((*elem)->SO);
-	if ((*elem)->EA)
-		free((*elem)->EA);
-	if ((*elem)->WE)
-		free((*elem)->WE);
+	if ((*elem)->no)
+		free((*elem)->no);
+	if ((*elem)->so)
+		free((*elem)->so);
+	if ((*elem)->ea)
+		free((*elem)->ea);
+	if ((*elem)->we)
+		free((*elem)->we);
 	if (*elem)
 		free(*elem);
 }

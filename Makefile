@@ -24,7 +24,7 @@ SRC =	main.c \
 	draw.c \
 	ray.c \
 	event.c \
-	ft_close.c \
+	event2.c \
 
 libft_DIR = ./lib/libft
 SRCS = $(addprefix srcs/, $(SRC))
