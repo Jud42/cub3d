@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:15:03 by Blaze             #+#    #+#             */
-/*   Updated: 2023/01/25 18:15:39 by Blaze            ###    42Lausanne.ch    */
+/*   Updated: 2023/01/27 00:56:49 by Blaze            ###    42Lausanne.ch    */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,11 @@ int	parse_map(t_ray *r)
 		while (r->map[r->y][r->x])
 		{
 			while (r->map[r->y][r->x] == ' ')
-			{
 				r->x++;
-				if (r->map[r->y][r->x] && r->map[r->y][r->x] != '1')
-					return (msg_error("map :( not valid", 0));
-				if (check_char(r))
-					return (1);
-			}
+			if (r->map[r->y][r->x] && r->map[r->y][r->x] != '1')
+				return (msg_error("map :( not valid", 0));
+			if (check_char(r))
+				return (1);
 		}
 		r->x = 0;
 	}
