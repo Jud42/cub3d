@@ -1,143 +1,150 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 23:36:13 by Blaze             #+#    #+#             */
+/*   Updated: 2023/01/26 01:11:17 by Blaze            ###    42Lausanne.ch    */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
- # define CUB3D_H
+# define CUB3D_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <math.h>
-#include <time.h>
-#include "../lib/libft/libft.h"
+# include <stdlib.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <math.h>
+# include <time.h>
+# include "../lib/libft/libft.h"
+# include "keys.h"
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
-#define EXIT 1
-#define PIX 64 //64 Height & 64 Width
-#define COLOR_P	0x00FF0000 //test pixel 
-#define COL_DIR_P	0x000066FF //test pixel 
-#define COL_TEST	0x0000FF66 //test pixel 
-#define PI 3.1415926535//pi value
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 600
+# define EXIT 1
+# define PIX 64
+# define COLOR_P	0x00FF0000 
+# define COL_DIR_P	0x000066FF 
+# define COL_TEST	0x0000FF66 
+# define PI 3.1415926535
 
-# ifdef __linux__ //clavier azerty
-    # include "../lib/mlx/linux/mlx.h"
-	# define UP 122
-	# define DOWN 115
-	# define ROT_LEFT 65361
-	# define ROT_RIGHT 65363
-    # define LEFT 113
-    # define RIGHT 100
-	# define CLOSE 65307 
-# else //mac
-    # include "../lib/mlx/mlx.h"
-	# define UP 13
-	# define DOWN 1
-	# define ROT_LEFT 123
-	# define ROT_RIGHT 124
-    # define LEFT 0
-    # define RIGHT 2
-    # define CLOSE 53
-# endif
+typedef struct s_color
+{
+	int	red;
+	int	green;
+	int	blue;
+}	t_color;
 
-typedef struct s_color{
-	int RED;
-	int GREEN;
-	int BLUE;
-} t_color;
+typedef struct s_move
+{
+	int	up;
+	int	down;
+	int	left;
+	int	right;
+	int	rot_left;
+	int	rot_right;
+}	t_move;
 
-typedef struct s_elements{
-	char	*NO; //path north texture wall
-	char	*SO; //path south texture wall
-	char	*WE; //path west texture wall
-	char	*EA; //path east texture wall
-	int	F; //color sol
-	int	C; //color plafond
+typedef struct s_elements
+{
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	int		f;
+	int		c;
 }	t_elements;
 
 typedef struct s_img
 {
 	void	*img;
-	int	*addr;
-	int	width;
-	int	height;
-	int	bpp; 	/* bits per pixel */
-	int	line_length;
-	int	endian;
+	int		*addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		line_length;
+	int		endian;
 }	t_img;
 
-typedef struct s_data{
-	void 	*mlx_ptr;
-	void 	*mlx_win;
-	int	screen_w;
-	int	screen_h;	
+typedef struct s_data
+{
+	void	*mlx_ptr;
+	void	*mlx_win;
+	int		screen_w;
+	int		screen_h;	
 	void	*img;
-	int	*addr;
-	int	bpp;
-	int	line_length;
-	int	endian;
+	int		*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
 	t_img	texture[4];
 }	t_data;
 
 typedef struct s_text
 {
-	int	texX;
-	int	texY;
-	int	texdir;
+	int		tex_x;
+	int		tex_y;
+	int		texdir;
 	double	texpos;
 	double	step;
-	double	wallX;
+	double	wallx;
 }	t_text;
 
-typedef struct s_ray{
-	int	x;
-	int	y;
-	char	**map;
-	int	mapX;
-	int	mapY;
-	char	pos;
-	double	posX;
-	double	posY;
-	double	pdX;
-	double	pdY;
-	double	pa;
-	double	planX;
-	double	planY;	
-	double	time;
-	double	oldtime;
-	double	movespeed;
-	double	rotspeed;
-	double	cameraX;
-	double	raydirX;
-	double	raydirY;
-	double	sidedstX;
-	double	sidedstY;
-	double	deltadstX;
-	double	deltadstY;
-	double	perpdwalldst;
-	int	**buffer;
-	int	stepX;
-	int	stepY;
-	int	lineHeight;
-	int	drawstart;
-	int	drawend;
-	int	hit;
-	int	side;
+typedef struct s_ray
+{
+	int			x;
+	int			y;
+	char		**map;
+	int			mapx;
+	int			mapy;
+	char		pos;
+	double		posx;
+	double		posy;
+	double		pdx;
+	double		pdy;
+	double		pa;
+	double		planx;
+	double		plany;	
+	double		time;
+	double		oldtime;
+	double		movespeed;
+	double		rotspeed;
+	double		camera_x;
+	double		raydir_x;
+	double		raydir_y;
+	double		sidedst_x;
+	double		sidedst_y;
+	double		deltadst_x;
+	double		deltadst_y;
+	double		perpdwalldst;
+	int			**buffer;
+	int			step_x;
+	int			step_y;
+	int			line_height;
+	int			drawstart;
+	int			drawend;
+	int			hit;
+	int			side;
+	t_move		move;
 	t_elements	*elem;
-	t_data 	*data;
+	t_data		*data;
 }	t_ray;
 
-	
-int msg_error(char *s, int flag);
-char **create_tab(char *file);
-int init_all(t_ray *ray, char *file);
-void check_error_argument(int ac, char **av);
-int	take_map(t_ray *r);
-int	parse_map(t_ray *r);
-void clean_all(t_ray *r, int flag);
-void clean_tab(char **tab, int flag);
+int		msg_error(char *s, int flag);
+char	**create_tab(char *file);
+int		init_all(t_ray *ray, char *file);
+void	check_error_argument(int ac, char **av);
+int		take_map(t_ray *r);
+int		parse_map(t_ray *r);
+void	clean_all(t_ray *r, int flag);
+void	clean_tab(char **tab, int flag);
 void	clean_element(t_elements **elem);
 void	fill_map(t_ray *r);
-int	take_color(char *line, t_elements *elem);
-
+int		take_color(char *line, t_elements *elem);
+int		nb_line_tab(char *file);
 //temp draw
 void	draw_empty(t_ray *r);
 void	draw_player(t_ray *r);
@@ -146,19 +153,25 @@ void	print_wall(t_ray *r);
 void	ray_cast(t_data *d);
 
 //temp event
-int 	ft_keypress(int keycode, t_ray *r);
-int	ft_keyrelease(int keycode, t_ray *r);
+int		ft_keypress(int keycode, t_ray *r);
+int		ft_keyrelease(int keycode, t_ray *r);
 
-int	init_texture(t_ray *r);
+int		init_texture(t_ray *r);
 void	ft_draw_column(t_ray *r);
-int	raycasting(t_ray *r);
+int		raycasting(t_ray *r);
 
 void	init_dir_and_plancam(t_ray *r);
 void	clean_image(t_ray *r);
 void	calcul_time(t_ray *r);
 char	*conv_hexe(int n);
-int	ft_atoi_hexe(const char *str);
+int		ft_atoi_hexe(const char *str);
 
-int	ft_close(t_ray *r);
+// move
+void	move(t_ray *r);
+void	left_or_right(t_ray *r);
+void	rotation_right(t_ray *r);
+void	rotation_left(t_ray *r);
+void	up_or_down(t_ray *r);
+
+int		ft_close(t_ray *r);
 #endif 
-
