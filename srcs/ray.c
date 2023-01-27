@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 20:10:49 by Blaze             #+#    #+#             */
+/*   Updated: 2023/01/25 20:18:46 by Blaze            ###    42Lausanne.ch    */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 /*
@@ -9,121 +21,114 @@
 
 void	init_dir_and_plancam(t_ray *r)
 {
-	r->planX = 0;
-	r->planY = 0;
-	r->pdX = cos(r->pa);
-	r->pdY = sin(r->pa);
- 	if (r->pos == 'N')
-		r->planX = 0.66;
- 	if (r->pos == 'S')
-		r->planX = -0.66;
- 	if (r->pos == 'E')
-		r->planY = -0.66;
- 	if (r->pos == 'W')
-		r->planY = 0.66;
+	r->planx = 0;
+	r->plany = 0;
+	r->pdx = cos(r->pa);
+	r->pdy = sin(r->pa);
+	if (r->pos == 'N')
+		r->planx = 0.66;
+	if (r->pos == 'S')
+		r->planx = -0.66;
+	if (r->pos == 'E')
+		r->plany = -0.66;
+	if (r->pos == 'W')
+		r->plany = 0.66;
 }
 
 static void	ft_dda(t_ray *r)
 {
 	while (r->hit == 0)
 	{
-		if (r->sidedstX < r->sidedstY)
+		if (r->sidedst_x < r->sidedst_y)
 		{
-			r->sidedstX += r->deltadstX;
-			r->mapX += r->stepX;
+			r->sidedst_x += r->deltadst_x;
+			r->mapx += r->step_x;
 			r->side = 0;
 		}
 		else
 		{
-			r->sidedstY += r->deltadstY;
-			r->mapY += r->stepY;
+			r->sidedst_y += r->deltadst_y;
+			r->mapy += r->step_y;
 			r->side = 1;
 		}
-		if (r->map[r->mapY][r->mapX] == '1' || 
-		r->map[r->mapY][r->mapX] == 32)
+		if (r->map[r->mapy][r->mapx] == '1' || \
+		r->map[r->mapy][r->mapx] == 32)
 			r->hit = 1;
 	}
 }
 
 static void	init_step_side(t_ray *r)
 {
-	if (r->raydirX < 0.)
+	if (r->raydir_x < 0.)
 	{
-		r->stepX = -1;
-		r->sidedstX = (r->posX - r->mapX) * r->deltadstX;
+		r->step_x = -1;
+		r->sidedst_x = (r->posx - r->mapx) * r->deltadst_x;
 	}
 	else
 	{
-		r->stepX = 1;
-		r->sidedstX = (r->mapX + 1.0 - r->posX) * r->deltadstX;
+		r->step_x = 1;
+		r->sidedst_x = (r->mapx + 1.0 - r->posx) * r->deltadst_x;
 	}
-	if (r->raydirY < 0.)
+	if (r->raydir_y < 0.)
 	{
-		r->stepY = -1;
-		r->sidedstY = (r->posY - r->mapY) * r->deltadstY;
+		r->step_y = -1;
+		r->sidedst_y = (r->posy - r->mapy) * r->deltadst_y;
 	}
 	else
 	{
-		r->stepY = 1;
-		r->sidedstY = (r->mapY + 1.0 - r->posY) * r->deltadstY;
+		r->step_y = 1;
+		r->sidedst_y = (r->mapy + 1.0 - r->posy) * r->deltadst_y;
 	}
 }
-
 
 static void	init_deltax_y(t_ray *r)
 {
 	r->hit = 0;
 	r->perpdwalldst = 0.;
-	r->cameraX = 2 * r->x / (double)r->data->screen_w - 1;
-	r->raydirX = r->pdX + r->planX * r->cameraX; // 5;
-	r->raydirY = r->pdY + r->planY * r->cameraX; // 5;
-	r->mapX = (int)r->posX;
-	r->mapY = (int)r->posY;
-	if (r->raydirY == 0.)
-		r->deltadstX = 0.;
-	else if (r->raydirX == 0.)
-		r->deltadstX = 1.;
+	r->camera_x = 2 * r->x / (double)r->data->screen_w - 1;
+	r->raydir_x = r->pdx + r->planx * r->camera_x;
+	r->raydir_y = r->pdy + r->plany * r->camera_x;
+	r->mapx = (int)r->posx;
+	r->mapy = (int)r->posy;
+	if (r->raydir_y == 0.)
+		r->deltadst_x = 0.;
+	else if (r->raydir_x == 0.)
+		r->deltadst_x = 1.;
 	else
 	{
-		r->deltadstX = sqrt(1 + (r->raydirY * r->raydirY) \
-		/ (r->raydirX * r->raydirX));
+		r->deltadst_x = sqrt(1 + (r->raydir_y * r->raydir_y) \
+		/ (r->raydir_x * r->raydir_x));
 	}
-	if (r->raydirX == 0.)
-		r->deltadstY = 0;
-	else if (r->raydirY == 0.)
-		r->deltadstY = 1.;
+	if (r->raydir_x == 0.)
+		r->deltadst_y = 0;
+	else if (r->raydir_y == 0.)
+		r->deltadst_y = 1.;
 	else
 	{
-		r->deltadstY = sqrt(1 + (r->raydirX * r->raydirX) \
-		/ (r->raydirY * r->raydirY));
+		r->deltadst_y = sqrt(1 + (r->raydir_x * r->raydir_x) \
+		/ (r->raydir_y * r->raydir_y));
 	}
 }
 
 int	raycasting(t_ray *r)
 {
 	r->x = -1;
-	while(++r->x < r->data->screen_w)
+	while (++r->x < r->data->screen_w)
 	{
 		init_deltax_y(r);
 		init_step_side(r);
 		ft_dda(r);
 		if (r->side == 0)
-		{
-			//r->perpdwalldst = (r->sidedstX - r->deltadstX);
-			r->perpdwalldst = ((double)r->mapX - r->posX + \
-			(1 - (double)r->stepX) / 2) / r->raydirX;
-		}
-		else 
-		{
-			//r->perpdwalldst = (r->sidedstY - r->deltadstY);
-			r->perpdwalldst = ((double)r->mapY - r->posY + \
-			(1 - (double)r->stepY) / 2) / r->raydirY;
-		}
-		r->lineHeight = (int) (r->data->screen_h / r->perpdwalldst);
-		r->drawstart = -r->lineHeight / 2 + r->data->screen_h / 2;
+			r->perpdwalldst = ((double)r->mapx - r->posx + \
+			(1 - (double)r->step_x) / 2) / r->raydir_x;
+		else
+			r->perpdwalldst = ((double)r->mapy - r->posy + \
+			(1 - (double)r->step_y) / 2) / r->raydir_y;
+		r->line_height = (int)(r->data->screen_h / r->perpdwalldst);
+		r->drawstart = -r->line_height / 2 + r->data->screen_h / 2;
 		if (r->drawstart < 0)
 			r->drawstart = 0;
-		r->drawend = r->lineHeight / 2 + r->data->screen_h / 2;
+		r->drawend = r->line_height / 2 + r->data->screen_h / 2;
 		if (r->drawend >= r->data->screen_h || r->drawend < 0)
 			r->drawend = r->data->screen_h - 1;
 		ft_draw_column(r);

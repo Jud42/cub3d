@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 23:13:03 by Blaze             #+#    #+#             */
+/*   Updated: 2023/01/25 23:20:46 by Blaze            ###    42Lausanne.ch    */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 void	init_text(t_ray *r, t_text **t)
@@ -8,45 +20,44 @@ void	init_text(t_ray *r, t_text **t)
 		msg_error("malloc() in init_text()", 0);
 		clean_all(r, EXIT);
 	}
-	if (r->side == 0 && r->raydirX < 0.)
+	if (r->side == 0 && r->raydir_x < 0.)
 		(*t)->texdir = 0;
-	if (r->side == 0 && r->raydirX >= 0.)
+	if (r->side == 0 && r->raydir_x >= 0.)
 		(*t)->texdir = 1;
-	if (r->side == 1 && r->raydirY < 0.)
+	if (r->side == 1 && r->raydir_y < 0.)
 		(*t)->texdir = 2;
-	if (r->side == 1 && r->raydirY >= 0.)
+	if (r->side == 1 && r->raydir_y >= 0.)
 		(*t)->texdir = 3;
 	if (r->side == 0)
-		(*t)->wallX = r->posY + r->perpdwalldst * r->raydirY;
+		(*t)->wallx = r->posy + r->perpdwalldst * r->raydir_y;
 	else
-		(*t)->wallX = r->posX + r->perpdwalldst * r->raydirX;
-	(*t)->wallX -= floor((*t)->wallX);
+		(*t)->wallx = r->posx + r->perpdwalldst * r->raydir_x;
+	(*t)->wallx -= floor((*t)->wallx);
 }
 
 void	draw_texture(t_ray *r, int x, int *y)
 {
-	t_text *t;
+	t_text	*t;
 
 	init_text(r, &t);
-	t->step = 1.0 * r->data->texture[t->texdir].height / r->lineHeight;
-	t->texX = (int)(t->wallX * (double)r->data->texture[t->texdir].width);
-	if (r->side == 0 && r->raydirX < 0.) 
-		t->texX = r->data->texture[t->texdir].width - t->texX - 1;
-	if (r->side == 1 && r->raydirY > 0.)
-		t->texX = r->data->texture[t->texdir].width - t->texX - 1;
+	t->step = 1.0 * r->data->texture[t->texdir].height / r->line_height;
+	t->tex_x = (int)(t->wallx * (double)r->data->texture[t->texdir].width);
+	if (r->side == 0 && r->raydir_x < 0.)
+		t->tex_x = r->data->texture[t->texdir].width - t->tex_x - 1;
+	if (r->side == 1 && r->raydir_y > 0.)
+		t->tex_x = r->data->texture[t->texdir].width - t->tex_x - 1;
 	t->texpos = (r->drawstart - r->data->screen_h / 2 + \
-	r->lineHeight / 2) * t->step;
+	r->line_height / 2) * t->step;
 	while (*y <= r->drawend)
 	{
-		t->texY = (int)t->texpos & \
+		t->tex_y = (int)t->texpos & \
 		(r->data->texture[t->texdir].height - 1);
 		t->texpos += t->step;
 		if (*y < r->data->screen_h && x < r->data->screen_w)
 		{
-			r->data->addr[*y * r->data->line_length / 4  + x] \
-			= r->data->texture[t->texdir].addr[t->texY * \
-			r->data->texture[t->texdir].height + \
-			t->texX];
+			r->data->addr[*y * r->data->line_length / 4 + x] \
+			= r->data->texture[t->texdir].addr[t->tex_y * \
+			r->data->texture[t->texdir].height + t->tex_x];
 		}
 		(*y)++;
 	}
@@ -61,14 +72,14 @@ void	ft_draw_column(t_ray *r)
 	while (++y < r->drawstart)
 	{
 		r->data->addr[y * r->data->line_length / 4 + r->x] = \
-		r->elem->C;
+		r->elem->c;
 	}
 	if (y <= r->drawend)
 		draw_texture(r, r->x, &y);
 	while (y < r->data->screen_h)
 	{
 		r->data->addr[y * r->data->line_length / 4 + r->x] = \
-		r->elem->F;
+		r->elem->f;
 		y++;
 	}
 }
