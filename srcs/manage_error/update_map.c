@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:35:52 by Blaze             #+#    #+#             */
-/*   Updated: 2023/02/02 23:08:39 by rmamison         ###   ########.fr       */
+/*   Updated: 2023/02/02 23:46:12 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	take_path(char *line, char *substr, char **texture)
 	if (line[i + 1] == substr[0] && line[i + 2] == substr[1])
 	{
 		if (*texture)
-			return (msg_error("same identifiant find twice", 0));
+			return (msg_error("", 0));
 		path = ft_split(line, ' ');
 		if (!path || !path[1] || path[2] != NULL)
 		{
@@ -74,7 +74,7 @@ static int	update_map(t_ray *r)
 	i = -1;
 	while (r->map[++i])
 		;
-	new_map = malloc(sizeof(char *) * (i - r->y));
+	new_map = malloc(sizeof(char *) * ((i - r->y) + 1));
 	if (!new_map)
 		return (msg_error("malloc() update_map()", 0));
 	i = 0;
