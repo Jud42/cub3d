@@ -6,7 +6,7 @@
 #    By: rmamison <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/02 20:23:28 by rmamison          #+#    #+#              #
-#    Updated: 2023/02/02 20:26:43 by rmamison         ###   ########.fr        #
+#    Updated: 2023/02/02 23:01:26 by rmamison         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ CLONE = file_object \
 
 $(DIR)/%.o : %.c
 	@mkdir -p $(CLONE)
-	@$(CC) $(INCLUDE) -c $^ -o $@
+	@$(CC) $(INCLUDE) $(FLAGS) -c $^ -o $@
 
 all : $(NAME)
 

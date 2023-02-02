@@ -6,7 +6,7 @@
 /*   By: rmamison <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:29:21 by rmamison          #+#    #+#             */
-/*   Updated: 2023/02/02 20:29:24 by rmamison         ###   ########.fr       */
+/*   Updated: 2023/02/02 22:34:59 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,6 @@ static char	*new_string(char *s)
 	}
 	new_s[j] = '\0';
 	return (new_s);
-}
-
-static int	first_char(char *s)
-{
-	int	i;
-
-	if (!ft_strncmp(s, "\n", ft_strlen(s)))
-		return (0);
-	i = -1;
-	while (s[++i] && s[i] == ' ')
-		;
-	if (s[i] == '1')
-		return (1);
-	return (0);
 }
 
 static void	alloc_new_tab(char **tab, char ***new_tab)

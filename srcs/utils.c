@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 20:48:45 by Blaze             #+#    #+#             */
-/*   Updated: 2023/01/25 22:25:23 by Blaze            ###    42Lausanne.ch    */
+/*   Updated: 2023/02/02 22:35:47 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	init_mapx_y(t_ray *r)
 	i = 0;
 	r->mapx = ft_strlen(r->map[i]);
 	while (r->map[++i])
-		if (ft_strlen(r->map[i]) > r->mapx)
+		if ((int)ft_strlen(r->map[i]) > r->mapx)
 			r->mapx = ft_strlen(r->map[i]);
 	r->mapy = i;
 }
@@ -107,7 +107,7 @@ void	fill_map(t_ray *r)
 	init_mapx_y(r);
 	while (r->map[i])
 	{
-		if (ft_strlen(r->map[i]) < r->mapx)
+		if ((int)ft_strlen(r->map[i]) < r->mapx)
 		{
 			j = -1;
 			s = malloc(sizeof(char) * r->mapx + 1);

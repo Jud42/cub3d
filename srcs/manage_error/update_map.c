@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:35:52 by Blaze             #+#    #+#             */
-/*   Updated: 2023/01/25 19:44:07 by Blaze            ###    42Lausanne.ch    */
+/*   Updated: 2023/02/02 23:08:39 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	update_map(t_ray *r)
 	i = -1;
 	while (r->map[++i])
 		;
-	new_map = malloc(sizeof(char *) * (i - r->y) + 1);
+	new_map = malloc(sizeof(char *) * (i - r->y));
 	if (!new_map)
 		return (msg_error("malloc() update_map()", 0));
 	i = 0;

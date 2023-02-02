@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 23:21:46 by Blaze             #+#    #+#             */
-/*   Updated: 2023/01/25 23:28:53 by Blaze            ###    42Lausanne.ch    */
+/*   Updated: 2023/02/02 22:58:06 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	init_texture(t_ray *r)
 
 static int	init_mlx(t_ray *r)
 {
+	r->data->img = NULL;
 	r->data->mlx_ptr = mlx_init();
 	r->data->screen_w = SCREEN_WIDTH;
 	r->data->screen_h = SCREEN_HEIGHT;

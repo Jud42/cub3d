@@ -6,7 +6,7 @@
 /*   By: rmamison <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:29:44 by rmamison          #+#    #+#             */
-/*   Updated: 2023/02/02 20:29:48 by rmamison         ###   ########.fr       */
+/*   Updated: 2023/02/02 22:36:16 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	take_color(char *line, t_elements *elem)
 	while (line[++i] && line[i] == ' ')
 		;
 	c = line[i];
-	if (line[i] == 'F' || line[i] == 'C' && line[i + 1] == ' ')
+	if (line[i] == 'F' || (line[i] == 'C' && line[i + 1] == ' '))
 	{
 		if (create_tab_rgb(line, &tab_rgb))
 			return (1);
