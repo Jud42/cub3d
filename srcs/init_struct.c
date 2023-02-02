@@ -72,6 +72,7 @@ static void	init_element(t_ray *r)
 	r->elem->ea = NULL;
 	r->elem->f = 0;
 	r->elem->c = 0;
+	init_move(r);
 }
 
 int	init_all(t_ray *ray, char *file)
@@ -93,7 +94,7 @@ int	init_all(t_ray *ray, char *file)
 	init_dir_and_plancam(ray);
 	ray->time = 0;
 	ray->oldtime = 0;
-	ray->movespeed = 0.1;
+	ray->movespeed = 0.2;
 	ray->rotspeed = 0.3;
 	return (0);
 }

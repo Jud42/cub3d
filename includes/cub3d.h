@@ -167,6 +167,7 @@ char	*conv_hexe(int n);
 int		ft_atoi_hexe(const char *str);
 
 // move
+void	init_move(t_ray *r);
 void	move(t_ray *r);
 void	left_or_right(t_ray *r);
 void	rotation_right(t_ray *r);

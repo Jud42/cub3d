@@ -30,9 +30,9 @@ void	init_dir_and_plancam(t_ray *r)
 	if (r->pos == 'S')
 		r->planx = -0.66;
 	if (r->pos == 'E')
-		r->plany = -0.66;
-	if (r->pos == 'W')
 		r->plany = 0.66;
+	if (r->pos == 'W')
+		r->plany = -0.66;
 }
 
 static void	ft_dda(t_ray *r)

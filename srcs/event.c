@@ -46,8 +46,8 @@ void	rotation_right(t_ray *r)
 	if (r->move.rot_right)
 	{
 		r->pa += 0.1;
-		if (r->pa > 2 * PI)
-			r->pa -= 2 * PI;
+		if (r->pa > PI * 2)
+			r->pa -= PI * 2;
 		r->pdx = cos(r->pa);
 		r->pdy = sin(r->pa);
 		pa_cam = r->pa + PI / 2;
@@ -82,19 +82,19 @@ void	up_or_down(t_ray *r)
 	if (r->move.up)
 	{
 		if (r->map[(int)(r->posy + r->pdy * \
-		r->movespeed * 2)][(int)r->posx] == '0')
+		r->movespeed)][(int)r->posx] == '0')
 			r->posy += r->pdy * r->movespeed;
 		if (r->map[(int)r->posy][(int)(r->posx + r->pdx * \
-		r->movespeed * 2)] == '0')
+		r->movespeed)] == '0')
 			r->posx += r->pdx * r->movespeed;
 	}
 	else if (r->move.down)
 	{
 		if (r->map[(int)(r->posy - r->pdy * \
-		r->movespeed * 2)][(int)r->posx] == '0')
+		r->movespeed)][(int)r->posx] == '0')
 			r->posy -= r->pdy * r->movespeed;
 		if (r->map[(int)r->posy][(int)(r->posx - r->pdx * \
-		r->movespeed * 2)] == '0')
+		r->movespeed)] == '0')
 			r->posx -= r->pdx * r->movespeed;
 	}
 }
