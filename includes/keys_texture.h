@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef KEYS_H
-# define KEYS_H
+#ifndef KEYS_TEXTURE_H
+# define KEYS_TEXTURE_H
 
 # include "../lib/mlx/mlx.h"
 # define UP 13

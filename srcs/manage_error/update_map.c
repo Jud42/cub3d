@@ -106,8 +106,7 @@ int	take_map(t_ray *r)
 		}
 		r->x = 0;
 	}
-	if (nb_elem && nb_elem == 6)
+	if (nb_elem == 6)
 		return (update_map(r));
-	msg_error("missing information inside map", 0);
-	return (1);
+	return (msg_error("missing information inside map", 0));
 }

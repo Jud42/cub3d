@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+         #
+#    By: rmamison <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/01/18 20:23:26 by Blaze             #+#    #+#              #
-#    Updated: 2023/01/18 20:23:37 by Blaze            ###    42Lausanne.ch     #
+#    Created: 2023/02/02 20:23:28 by rmamison          #+#    #+#              #
+#    Updated: 2023/02/02 20:26:43 by rmamison         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ SRC =	main.c \
 	event2.c \
 
 libft_DIR = ./lib/libft
-SRCS = $(addprefix srcs/, $(SRC))
 
+SRCS = $(addprefix srcs/, $(SRC))
 UNAME= $(shell uname -s)
 ifeq ($(uname), Linux)
 		mlx_DIR = ./lib/mlx/linux

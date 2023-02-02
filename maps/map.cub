@@ -1,11 +1,3 @@
-NO ./assets/texture/wall_north.xpm
-SO ./assets/texture/wall_south.xpm
-WE ./assets/texture/wall_west.xpm
-EA ./assets/texture/wall_east.xpm
-
-F 96,96,96
-C 32,32,32
-
 11111111111111
 11000000000101
 10000000010001
