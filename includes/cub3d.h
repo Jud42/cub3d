@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
+/*   By: rmamison <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 23:36:13 by Blaze             #+#    #+#             */
-/*   Updated: 2023/01/26 01:11:17 by Blaze            ###    42Lausanne.ch    */
+/*   Created: 2023/02/02 20:21:27 by rmamison          #+#    #+#             */
+/*   Updated: 2023/02/02 20:22:28 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <math.h>
 # include <time.h>
 # include "../lib/libft/libft.h"
-# include "keys.h"
+# include "keys_texture.h"
 
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 600
@@ -167,6 +167,7 @@ char	*conv_hexe(int n);
 int		ft_atoi_hexe(const char *str);
 
 // move
+void	init_move(t_ray *r);
 void	move(t_ray *r);
 void	left_or_right(t_ray *r);
 void	rotation_right(t_ray *r);

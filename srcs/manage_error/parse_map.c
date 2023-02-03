@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:15:03 by Blaze             #+#    #+#             */
-/*   Updated: 2023/01/27 00:56:49 by Blaze            ###    42Lausanne.ch    */
+/*   Updated: 2023/02/02 22:43:06 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ static int	check_space(t_ray *r)
 	while (r->map[r->y][r->x] && r->map[r->y][r->x] == ' ')
 	{
 		y_tmp = r->y;
-		while (y_tmp-- > 0 && r->x < ft_strlen(r->map[y_tmp]) \
+		while (y_tmp-- > 0 && r->x < (int)ft_strlen(r->map[y_tmp]) \
 			&& r->map[y_tmp][r->x] != '1')
 			if (r->map[y_tmp][r->x] != ' ' && r->map[y_tmp][r->x] != '1')
 				return (msg_error("wall not close", 0));
 		y_tmp = r->y;
 		while (r->map[++y_tmp] && r->map[y_tmp][r->x] != '1'\
-			&& r->x < ft_strlen(r->map[y_tmp]))
+			&& r->x < (int)ft_strlen(r->map[y_tmp]))
 			if (r->map[y_tmp][r->x] != ' ' && r->map[y_tmp][r->x] != '1')
 				return (msg_error("wall not close", 0));
 		++r->x;
@@ -76,7 +76,7 @@ static int	check_char(t_ray *r)
 	while (r->map[r->y][++(r->x)])
 	{
 		if (r->y == 0 && r->map[r->y][r->x] != '1' \
-			&& r->map[r->y][r->x] != ' ' || !r->map[r->y + 1] \
+			&& (r->map[r->y][r->x] != ' ' || !r->map[r->y + 1]) \
 			&& r->map[r->y][r->x] != '1' && r->map[r->y][r->x] != ' ')
 		{
 			ft_putchar_fd(r->map[r->y][r->x], 1);
@@ -108,6 +108,8 @@ int	parse_map(t_ray *r)
 		}
 		r->x = 0;
 	}
+	if (r->pa == -1)
+		return (msg_error("no Player", 0));
 	fill_map(r);
 	return (0);
 }

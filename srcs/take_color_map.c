@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   take_color_map.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
+/*   By: rmamison <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 22:26:42 by Blaze             #+#    #+#             */
-/*   Updated: 2023/01/25 23:04:28 by Blaze            ###    42Lausanne.ch    */
+/*   Created: 2023/02/02 20:29:44 by rmamison          #+#    #+#             */
+/*   Updated: 2023/02/02 22:36:16 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	take_color(char *line, t_elements *elem)
 	while (line[++i] && line[i] == ' ')
 		;
 	c = line[i];
-	if (line[i] == 'F' || line[i] == 'C' && line[i + 1] == ' ')
+	if (line[i] == 'F' || (line[i] == 'C' && line[i + 1] == ' '))
 	{
 		if (create_tab_rgb(line, &tab_rgb))
 			return (1);

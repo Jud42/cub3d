@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 23:21:46 by Blaze             #+#    #+#             */
-/*   Updated: 2023/01/25 23:28:53 by Blaze            ###    42Lausanne.ch    */
+/*   Updated: 2023/02/02 23:35:40 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	init_texture(t_ray *r)
 
 static int	init_mlx(t_ray *r)
 {
+	r->data->img = NULL;
 	r->data->mlx_ptr = mlx_init();
 	r->data->screen_w = SCREEN_WIDTH;
 	r->data->screen_h = SCREEN_HEIGHT;
@@ -72,6 +73,7 @@ static void	init_element(t_ray *r)
 	r->elem->ea = NULL;
 	r->elem->f = 0;
 	r->elem->c = 0;
+	init_move(r);
 }
 
 int	init_all(t_ray *ray, char *file)
@@ -93,7 +95,7 @@ int	init_all(t_ray *ray, char *file)
 	init_dir_and_plancam(ray);
 	ray->time = 0;
 	ray->oldtime = 0;
-	ray->movespeed = 0.1;
+	ray->movespeed = 0.2;
 	ray->rotspeed = 0.3;
 	return (0);
 }

@@ -18,6 +18,16 @@ int	ft_close(t_ray *r)
 	exit (0);
 }
 
+void	init_move(t_ray *r)
+{
+	r->move.up = 0;
+	r->move.down = 0;
+	r->move.left = 0;
+	r->move.right = 0;
+	r->move.rot_left = 0;
+	r->move.rot_right = 0;
+}
+
 void	move(t_ray *r)
 {
 	up_or_down(r);

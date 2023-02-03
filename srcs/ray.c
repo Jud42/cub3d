@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
+/*   By: rmamison <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 20:10:49 by Blaze             #+#    #+#             */
-/*   Updated: 2023/01/25 20:18:46 by Blaze            ###    42Lausanne.ch    */
+/*   Created: 2023/02/02 20:28:45 by rmamison          #+#    #+#             */
+/*   Updated: 2023/02/02 20:28:48 by rmamison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	init_dir_and_plancam(t_ray *r)
 	if (r->pos == 'S')
 		r->planx = -0.66;
 	if (r->pos == 'E')
-		r->plany = -0.66;
-	if (r->pos == 'W')
 		r->plany = 0.66;
+	if (r->pos == 'W')
+		r->plany = -0.66;
 }
 
 static void	ft_dda(t_ray *r)
