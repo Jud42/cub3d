@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 23:21:46 by Blaze             #+#    #+#             */
-/*   Updated: 2023/02/03 21:47:51 by btchiman         ###   42Lausanne.ch     */
+/*   Updated: 2023/02/03 23:13:52 by Blaze            ###    42Lausanne.ch    */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static int	init_mlx(t_ray *r)
 	{
 		r->data->img = NULL;
 		r->data->mlx_ptr = mlx_init();
-	
 		r->data->screen_w = SCREEN_WIDTH;
 		r->data->screen_h = SCREEN_HEIGHT;
 		r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
@@ -61,7 +60,8 @@ static int	init_mlx(t_ray *r)
 			return (msg_error("mlx_win", 0));
 		return (init_texture(r));
 	}
-	return (msg_error("screen size not valid",0));
+	else
+		return (msg_error("screen size not valid", 0));
 }
 
 static void	init_element(t_ray *r)
