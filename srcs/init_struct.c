@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 23:21:46 by Blaze             #+#    #+#             */
-/*   Updated: 2023/02/02 23:35:40 by rmamison         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:47:51 by btchiman         ###   42Lausanne.ch     */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,20 @@ int	init_texture(t_ray *r)
 
 static int	init_mlx(t_ray *r)
 {
-	r->data->img = NULL;
-	r->data->mlx_ptr = mlx_init();
-	r->data->screen_w = SCREEN_WIDTH;
-	r->data->screen_h = SCREEN_HEIGHT;
-	r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
-	r->data->screen_w, r->data->screen_h, "Cub3D");
-	if (!r->data->mlx_win)
-		return (msg_error("mlx_win", 0));
-	return (init_texture(r));
+	if (SCREEN_WIDTH > 0 && SCREEN_HEIGHT > 0)
+	{
+		r->data->img = NULL;
+		r->data->mlx_ptr = mlx_init();
+	
+		r->data->screen_w = SCREEN_WIDTH;
+		r->data->screen_h = SCREEN_HEIGHT;
+		r->data->mlx_win = mlx_new_window(r->data->mlx_ptr, \
+		r->data->screen_w, r->data->screen_h, "Cub3D");
+		if (!r->data->mlx_win)
+			return (msg_error("mlx_win", 0));
+		return (init_texture(r));
+	}
+	return (msg_error("screen size not valid",0));
 }
 
 static void	init_element(t_ray *r)

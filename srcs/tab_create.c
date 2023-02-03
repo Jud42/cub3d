@@ -6,7 +6,7 @@
 /*   By: rmamison <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:29:21 by rmamison          #+#    #+#             */
-/*   Updated: 2023/02/02 22:34:59 by rmamison         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:06:10 by btchiman         ###   42Lausanne.ch     */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*new_string(char *s)
 	int		i;
 	int		j;
 
-	new_s = malloc(sizeof(char) * ft_strlen(s));
+	new_s = malloc(sizeof(char) * ft_strlen(s)+1);
 	if (!new_s)
 	{
 		msg_error("malloc() delete_new_line", 0);
