@@ -6,7 +6,7 @@
 /*   By: Blaze <Blaze@42lausanne.ch>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:15:03 by Blaze             #+#    #+#             */
-/*   Updated: 2023/02/02 22:43:06 by rmamison         ###   ########.fr       */
+/*   Updated: 2023/02/03 22:24:01 by btchiman         ###   42Lausanne.ch     */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	check_position(t_ray *r)
 			r->pa = PI * 3 / 2;
 		else if (c == 'S')
 			r->pa = PI / 2;
-		else if (c == 'E')
+		else if (c == 'W')
 			r->pa = PI;
 		else
 			r->pa = 0.0;
@@ -75,9 +75,9 @@ static int	check_char(t_ray *r)
 	}
 	while (r->map[r->y][++(r->x)])
 	{
-		if (r->y == 0 && r->map[r->y][r->x] != '1' \
-			&& (r->map[r->y][r->x] != ' ' || !r->map[r->y + 1]) \
-			&& r->map[r->y][r->x] != '1' && r->map[r->y][r->x] != ' ')
+		if ((r->y == 0 && r->map[r->y][r->x] != '1' \
+			&& r->map[r->y][r->x] != ' ') || (!r->map[r->y + 1] \
+			&& r->map[r->y][r->x] != '1' && r->map[r->y][r->x] != ' '))
 		{
 			ft_putchar_fd(r->map[r->y][r->x], 1);
 			return (msg_error("wall not respected", 0));

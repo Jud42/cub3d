@@ -6,11 +6,11 @@
 #    By: rmamison <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/02 20:23:28 by rmamison          #+#    #+#              #
-#    Updated: 2023/02/02 23:01:26 by rmamison         ###   ########.fr        #
+#    Updated: 2023/02/03 21:15:22 by btchiman         ###   42Lausanne.ch      #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+NAME = cub3D
 
 SRC =	main.c \
 	tab_create.c \
