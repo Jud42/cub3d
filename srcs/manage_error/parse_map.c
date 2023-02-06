@@ -102,7 +102,7 @@ int	parse_map(t_ray *r)
 			while (r->map[r->y][r->x] == ' ')
 				r->x++;
 			if (r->map[r->y][r->x] && r->map[r->y][r->x] != '1')
-				return (msg_error("map :( not valid", 0));
+				return (msg_error("wall not respected", 0));
 			if (check_char(r))
 				return (1);
 		}
