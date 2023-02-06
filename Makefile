@@ -75,7 +75,7 @@ fclean : clean
 
 debug: FLAGS += -g3 -D DEBUG=1
 debug: all
-asan: FLAGS += -g3 -fsanitize=address -fno-omit-frame-pointer
+asan: FLAGS += -g3 -fsanitize=address
 asan: all
 
 re : fclean $(NAME)
