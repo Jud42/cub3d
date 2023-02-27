@@ -30,6 +30,7 @@ libft_DIR = ./lib/libft
 
 SRCS = $(addprefix srcs/, $(SRC))
 UNAME= $(shell uname -s)
+
 ifeq ($(uname), Linux)
 		mlx_DIR = ./lib/mlx/linux
 		mlx_FLAGS += -lmlx -lX11 -lXext -lm -lz
