@@ -10,17 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef _CUB3D_H
+ # define _CUB3D_H
 
+# include "libft.h"
+# include "mlx.h"
+# include "keys_texture.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <math.h>
 # include <time.h>
-# include "../lib/libft/libft.h"
-# include "keys_texture.h"
 
 # define SCREEN_WIDTH 800
 # define SCREEN_HEIGHT 600
@@ -175,4 +176,5 @@ void	rotation_left(t_ray *r);
 void	up_or_down(t_ray *r);
 
 int		ft_close(t_ray *r);
+
 #endif 

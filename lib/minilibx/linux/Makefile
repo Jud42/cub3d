@@ -19,4 +19,7 @@ do_configure	:
 clean	:
 	./configure clean
 
+fclean	: clean
+	rm -f libmlx.a
+
 re	: clean all

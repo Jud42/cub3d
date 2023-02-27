@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "cub3d.h"
 
 void	left_or_right(t_ray *r)
 {
@@ -101,6 +101,7 @@ void	up_or_down(t_ray *r)
 
 int	ft_keypress(int keycode, t_ray *r)
 {
+	printf("%d\n", keycode);
 	if (keycode == UP)
 		r->move.up = 1;
 	else if (keycode == DOWN)

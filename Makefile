@@ -26,19 +26,22 @@ SRC =	main.c \
 	event.c \
 	event2.c \
 
-libft_DIR = ./lib/libft
+LIBFT_DIR = ./lib/libft/
+
 
 SRCS = $(addprefix srcs/, $(SRC))
+
 UNAME= $(shell uname -s)
 
-ifeq ($(uname), Linux)
-		mlx_DIR = ./lib/mlx/linux
-		mlx_FLAGS += -lmlx -lX11 -lXext -lm -lz
+ifeq ($(UNAME), Linux)
+		MLX_DIR = ./lib/minilibx/linux
+		MLX_FLAGS = -lmlx_Linux -lX11 -lXext -lm -lz
 else
-		mlx_DIR = ./lib/mlx
-		mlx_FLAGS += -lmlx -lm -framework OpenGL -framework AppKit
+		MLX_DIR = ./lib/minilibx/mac
+		MLX_FLAGS = -lmlx -lm -framework OpenGL -framework AppKit
 endif
 
+INC = -Iincludes -I$(LIBFT_DIR) -I$(MLX_DIR) 
 FLAGS = -Wall -Wextra -Werror
 CC = gcc
 
@@ -51,25 +54,27 @@ CLONE = file_object \
 	file_object/srcs/manage_error \
 
 $(DIR)/%.o : %.c
+	@make -C $(LIBFT_DIR)
+	@make -C $(MLX_DIR)
 	@mkdir -p $(CLONE)
-	@$(CC) $(INCLUDE) $(FLAGS) -c $^ -o $@
+	@$(CC) $(INC) $(FLAGS) -c $^ -o $@
 
 all : $(NAME)
 
 $(NAME) : $(OB)
-	@make -C $(libft_DIR)
-	@make -C $(mlx_DIR)
 	@echo "Compiling cub3d..."
-	@$(CC) $(FLAGS) -lft -L$(libft_DIR) -L$(mlx_DIR) $(mlx_FLAGS) $(OB) $(LIB) -o $@
+	@$(CC) $(OB) ./lib/libft/libft.a -L$(MLX_DIR) $(MLX_FLAGS) -o $@
 	@echo "Compilation [cub3d] is done!"
 
 clean :
 	@echo "Remove all file_object..."
 	@$(RM) $(DIR)
-	@make clean -C $(libft_DIR)
+	@make clean -C $(LIBFT_DIR)
+	@make clean -C $(MLX_DIR)
 	@echo "file_object removed!"
 
 fclean : clean
+	@make fclean -C $(LIBFT_DIR)
 	@echo "Remove all file_object & file_binary..."
 	@$(RM) $(NAME)
 	@echo "object and binary_file removed!"

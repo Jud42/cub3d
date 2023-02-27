@@ -10,14 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
-
-/*
-    WEST (W): 0° = 360° or 0
-    NORTH (N): 270°
-    EAST (E): 180°
-    SOUTH (S): 90°
- */
+#include "cub3d.h"
 
 int	main(int argc, char *argv[])
 {
